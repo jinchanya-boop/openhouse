@@ -1196,7 +1196,7 @@
 
     <script>
         // Configuration
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWLeafAjZZHHvMcOVMoHqNXdQI_nlX59_aOxoE_X03-VE--xr5jqRUSLrklb980mfruw/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5oWC879E2wzhfHeiQF6W_c6vkEM4SX3CpbJIKwCgH55Ibi-8KxBbZoBccxUNpl_iLDA/exec';
         const ADMIN_PASSWORD = 'sa1234';
 
         let registrationsData = [];
@@ -1343,14 +1343,26 @@
                 };
 
                 // Send to Google Apps Script
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(formData)
-                });
+                // Send to Google Apps Script
+const response = await fetch(SCRIPT_URL, {
+    method: 'POST',
+    // ลบ mode: 'no-cors' ออกแล้ว
+    // ลบ headers ออกแล้ว (Google Script ฉลาดพอที่จะอ่านค่าได้เองครับ)
+    body: new URLSearchParams(formData)
+});
+
+// เพิ่มส่วนเช็คว่าส่งผ่านจริงไหม (ของเดิมเช็คไม่ได้เพราะติด no-cors)
+if (!response.ok) {
+    throw new Error('Network response was not ok');
+}
+
+// อ่านค่าตอบกลับจาก Server เพื่อดูว่าสำเร็จจริงไหม
+const result = await response.json(); 
+if (!result.success) {
+    throw new Error(result.error || 'Unknown error');
+}
+
+// หลังจากบรรทัดนี้ ก็จะเป็น Swal.fire อันเดิมของคุณ...
 
                 // Success message
                 Swal.fire({
@@ -1485,28 +1497,28 @@
         }
 
         // Load results
-        async function loadResults() {
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getWinners`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const data = await response.json();
-                winnersData = data.winners || [];
+        // Load results
+async function loadResults() {
+    try {
+        // แก้ไข: ลบ headers ออกเช่นกัน
+        const response = await fetch(`${SCRIPT_URL}?action=getWinners`);
+        
+        if (!response.ok) throw new Error('Network response was not ok');
 
-                displayResults(winnersData);
-            } catch (error) {
-                console.error('Error loading results:', error);
-                // Try to load from localStorage as fallback
-                const savedWinners = localStorage.getItem('winnersData');
-                if (savedWinners) {
-                    winnersData = JSON.parse(savedWinners);
-                    displayResults(winnersData);
-                }
-            }
+        const data = await response.json();
+        winnersData = data.winners || [];
+
+        displayResults(winnersData);
+    } catch (error) {
+        console.error('Error loading results:', error);
+        // Try to load from localStorage as fallback
+        const savedWinners = localStorage.getItem('winnersData');
+        if (savedWinners) {
+            winnersData = JSON.parse(savedWinners);
+            displayResults(winnersData);
         }
+    }
+}
 
         // Display results
         function displayResults(winners) {
@@ -1667,39 +1679,38 @@
         }
 
         // Load dashboard data
-        async function loadDashboardData() {
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getDashboard`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const data = await response.json();
+        // Load dashboard data
+async function loadDashboardData() {
+    try {
+        // แก้ไข: ลบ headers ออก เพื่อไม่ให้ติด CORS Preflight
+        const response = await fetch(`${SCRIPT_URL}?action=getDashboard`); 
+        
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
 
-                // Update stats
-                document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
-                document.getElementById('totalWinners').textContent = data.totalWinners || 0;
-                document.getElementById('totalCompetitions').textContent = data.totalCompetitions || 5;
-                document.getElementById('totalSchools').textContent = data.totalSchools || 0;
+        // Update stats
+        document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
+        document.getElementById('totalWinners').textContent = data.totalWinners || 0;
+        document.getElementById('totalCompetitions').textContent = data.totalCompetitions || 5;
+        document.getElementById('totalSchools').textContent = data.totalSchools || 0;
 
-                // Update charts
-                updateCompetitionChart(data.competitionStats || {});
-                updateSchoolChart(data.schoolStats || {});
+        // Update charts
+        updateCompetitionChart(data.competitionStats || {});
+        updateSchoolChart(data.schoolStats || {});
 
-            } catch (error) {
-                console.error('Error loading dashboard:', error);
-                // Use default values
-                document.getElementById('totalRegistrations').textContent = '0';
-                document.getElementById('totalWinners').textContent = '0';
-                document.getElementById('totalCompetitions').textContent = '5';
-                document.getElementById('totalSchools').textContent = '0';
-                
-                // Show default charts with empty data
-                updateCompetitionChart({});
-                updateSchoolChart({});
-            }
-        }
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        // Use default values
+        document.getElementById('totalRegistrations').textContent = '0';
+        document.getElementById('totalWinners').textContent = '0';
+        document.getElementById('totalCompetitions').textContent = '5';
+        document.getElementById('totalSchools').textContent = '0';
+        
+        updateCompetitionChart({});
+        updateSchoolChart({});
+    }
+}
 
         // Competition Chart
         let competitionChart = null;
