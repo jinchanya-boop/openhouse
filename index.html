@@ -28,11 +28,9 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
-            --secondary-gradient: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
-            --accent-gradient: linear-gradient(45deg, #00d2ff 0%, #3a47d5 100%);
-            --primary-color: #00d2ff;
-            --secondary-color: #3a47d5;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             --silver: linear-gradient(135deg, #C0C0C0 0%, #808080 100%);
             --bronze: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
@@ -40,8 +38,8 @@
             --text-light: #636e72;
             --bg-white: #ffffff;
             --bg-light: #f8f9fa;
-            --shadow: 0 10px 30px rgba(0, 210, 255, 0.15);
-            --shadow-hover: 0 15px 40px rgba(0, 210, 255, 0.25);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.25);
         }
 
         body {
@@ -303,15 +301,15 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
             background: white;
         }
 
         select.form-control {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300d2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 20px;
@@ -336,8 +334,8 @@
             align-items: center;
             gap: 1rem;
             padding: 1.2rem;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1) 0%, rgba(58, 71, 213, 0.1) 100%);
-            border: 2px dashed var(--primary-color);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px dashed #667eea;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -346,8 +344,8 @@
         }
 
         .file-input-label:hover {
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.2) 0%, rgba(58, 71, 213, 0.2) 100%);
-            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border-color: #764ba2;
         }
 
         .file-input-label i {
@@ -737,23 +735,6 @@
             }
         }
 
-        /* Page Management */
-        .page-section {
-            display: none;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        /* Navigation Active State */
-        .nav-btn.active {
-            background: var(--secondary-gradient);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -859,16 +840,16 @@
 
     <!-- Navigation -->
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showSection('categories')">
+        <button class="nav-btn" onclick="scrollToSection('categories')">
             <i class="fas fa-list"></i> รายการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="showSection('registration')">
+        <button class="nav-btn" onclick="scrollToSection('registration')">
             <i class="fas fa-edit"></i> ลงทะเบียน
         </button>
-        <button class="nav-btn" onclick="showSection('results')">
+        <button class="nav-btn" onclick="scrollToSection('results')">
             <i class="fas fa-trophy"></i> ผลการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="showSection('dashboard')">
+        <button class="nav-btn" onclick="scrollToSection('dashboard')">
             <i class="fas fa-chart-bar"></i> แดชบอร์ด
         </button>
     </div>
@@ -890,74 +871,58 @@
                 <div class="category-card">
                     <div class="category-title">
                         <i class="fas fa-palette"></i>
-                        การแข่งขันวาดภาพระบายสี "วิถีชีวิตถิ่นเวียงป้อ"
+                        การแข่งขันวาดภาพระบายสี "วิถีชีวิตดิ่นเวียงป้อ"
                     </div>
                     <ul class="category-levels">
-                        <li><i class="fas fa-child"></i> ระดับชั้น ป.1-ป.2 ประเภทสีไม้</li>
-                        <li><i class="fas fa-child"></i> ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค</li>
-                        <li><i class="fas fa-child"></i> ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค</li>
-                        <li><i class="fas fa-user"></i> ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น</li>
-                        <li><i class="fas fa-user-graduate"></i> ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น</li>
+                        <li><i class="fas fa-child"></i> ระดับชั้น ป.1-ป.2 ประเภทเดี่ยม</li>
+                        <li><i class="fas fa-child"></i> ระดับชั้น ป.3-ป.4 ประเภท ห้องดิก</li>
+                        <li><i class="fas fa-child"></i> ระดับชั้น ป.5-ป.6 ประเภทห้องดิก</li>
+                        <li><i class="fas fa-user"></i> ระดับชั้น ม.ต้น หนุ่มสี วิชาดิก เครื่องมือเครื่องใช้ในชีวิตออกขุน</li>
+                        <li><i class="fas fa-user-graduate"></i> ระดับชั้น ม.ปลาย หนุ่มสี วิชาดิก เครื่องมือเครื่องใช้ในชีวิตออกขุน</li>
                     </ul>
-                    <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px; font-size: 0.85rem;">
-                        <strong>รางวัล:</strong> เหรียญทอง (80+ คะแนน), เหรียญเงิน (70-79), เหรียญทองแดง (60-69), เข้าร่วม (ต่ำกว่า 60)
-                    </div>
                 </div>
 
                 <div class="category-card">
                     <div class="category-title">
                         <i class="fas fa-music"></i>
-                        การแข่งขันขับร้องเพลงไทยลูกทุ่งคาราโอเกะ
+                        การแข่งขันขับร้องเพลงโฟล์กลูกทุ่งจากราไทยณะ
                     </div>
                     <ul class="category-levels">
                         <li><i class="fas fa-child"></i> ระดับประถมศึกษา</li>
-                        <li><i class="fas fa-user"></i> ระดับมัธยมศึกษาตอนต้น</li>
-                        <li><i class="fas fa-user-graduate"></i> ระดับมัธยมศึกษาตอนปลาย</li>
+                        <li><i class="fas fa-user"></i> ระดับมัธยมศึกษาตอนต้น และ ระดับมัธยมศึกษาตอนปลาย</li>
                     </ul>
-                    <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px; font-size: 0.85rem;">
-                        <strong>เงื่อนไข:</strong> เพลงลูกทุ่งต้นฉบับ (เพลงช้า) 1 เพลง, ไม่มีรีวิว/แดนเซอร์, ตัด Guide Melody ออก
-                    </div>
                 </div>
 
                 <div class="category-card">
                     <div class="category-title">
-                        <i class="fas fa-running"></i>
-                        การแข่งขันเซปักตะกร้อ
+                        <i class="fas fa-drum"></i>
+                        การแข่งขันอปไกะก้อง
                     </div>
                     <ul class="category-levels">
-                        <li><i class="fas fa-users"></i> ระดับประถมศึกษา - ประเภททีมชาย 3 คน</li>
-                        <li><i class="fas fa-users"></i> ระดับประถมศึกษา - ประเภททีมหญิง 3 คน</li>
+                        <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทพื้นบ้าน 3 คน</li>
+                        <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทพื้นหนัง 3 คน</li>
                     </ul>
-                    <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px; font-size: 0.85rem;">
-                        <strong>รางวัล:</strong> ชนะเลิศ (ถ้วยรางวัล+ประกาศนียบัตร), รองชนะเลิศ อันดับ 1-2 (ประกaศนียบัตร)
-                    </div>
                 </div>
 
                 <div class="category-card">
                     <div class="category-title">
-                        <i class="fas fa-baseball-ball"></i>
-                        การแข่งขันคริกเก็ต "คริกเก็ตเยาวชนชิงชนะเลิศ"
+                        <i class="fas fa-mountain"></i>
+                        การแข่งขันคีรีแก้ว
                     </div>
                     <ul class="category-levels">
-                        <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทผสม (อายุไม่เกิน 12 ปี)</li>
+                        <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทเดชม</li>
                     </ul>
-                    <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px; font-size: 0.85rem;">
-                        <strong>รายละเอียด:</strong> แข่งขัน 8 โอเวอร์, นักกีฬา 7-11 คน (5ชาย 5หญิง 1วิคเก็ตคริปเปอร์), รางวัลพิเศษให้ผู้ตี/ผู้ขว้างดีเด่น
-                    </div>
                 </div>
 
                 <div class="category-card">
                     <div class="category-title">
-                        <i class="fas fa-volleyball-ball"></i>
-                        การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล
+                        <i class="fas fa-futbol"></i>
+                        การแข่งขันทักษะการเล่นลูกกลองมือ
                     </div>
                     <ul class="category-levels">
                         <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทเดี่ยว ชาย</li>
                         <li><i class="fas fa-child"></i> ระดับประถมศึกษา - ประเภทเดี่ยว หญิง</li>
                     </ul>
-                    <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px; font-size: 0.85rem;">
-                        <strong>กติกา:</strong> ใช้เวลา 3 นาที เล่นลูกสองมือล่าง ลูกตกนับต่อจนครบเวลา, แต่งกายชุดพละของโรงเรียน
-                    </div>
                 </div>
             </div>
         </div>
@@ -998,11 +963,11 @@
                         </label>
                         <select class="form-control" id="competitionType" required>
                             <option value="">-- เลือกประเภทการแข่งขัน --</option>
-                            <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตถิ่นเวียงป้อ"</option>
-                            <option value="ขับร้องเพลงลูกทุ่งคาราโอเกะ">การแข่งขันขับร้องเพลงไทยลูกทุ่งคาราโอเกะ</option>
-                            <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
-                            <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
-                            <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
+                            <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตดิ่นเวียงป้อ"</option>
+                            <option value="ขับร้องเพลงโฟลก์">การแข่งขันขับร้องเพลงโฟล์กลูกทุ่งจากราไทยณะ</option>
+                            <option value="อปไกะก้อง">การแข่งขันอปไกะก้อง</option>
+                            <option value="คีรีแก้ว">การแข่งขันคีรีแก้ว</option>
+                            <option value="ลูกกลองมือ">การแข่งขันทักษะการเล่นลูกกลองมือ</option>
                         </select>
                     </div>
 
@@ -1076,84 +1041,62 @@
 
             <!-- Admin Login -->
             <div class="admin-box">
-                <div id="adminLoginForm">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">
-                        <i class="fas fa-shield-alt"></i> Admin Login
-                    </h3>
-                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label">
-                                <i class="fas fa-key"></i> รหัสผ่าน Admin
-                            </label>
-                            <input type="password" class="form-control" id="adminLoginPassword" placeholder="กรอกรหัสผ่าน Admin">
-                        </div>
-                        <button class="btn btn-primary" onclick="adminLogin()">
-                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                        </button>
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+                    <i class="fas fa-shield-alt"></i> สำหรับผู้บริหาร - ประกาศผลการแข่งขัน
+                </h3>
+                <div class="admin-controls">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-key"></i> รหัสผ่าน
+                        </label>
+                        <input type="password" class="form-control" id="adminPassword" placeholder="กรอกรหัsผ่าน">
                     </div>
-                </div>
-
-                <div id="adminPanel" style="display: none;">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">
-                        <i class="fas fa-shield-alt"></i> Admin Panel - ประกาศผลการแข่งขัน
-                    </h3>
-                    <div style="margin-bottom: 1rem;">
-                        <button class="btn btn-warning" onclick="adminLogout()" style="font-size: 0.85rem;">
-                            <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                        </button>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i> ชื่อผู้ได้รับรางวัล
+                        </label>
+                        <input type="text" class="form-control" id="winnerName" placeholder="ชื่อ-นามสกุล ผู้ชนะ">
                     </div>
-                    <div class="admin-controls">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-user"></i> ชื่อผู้ได้รับรางวัล
-                            </label>
-                            <input type="text" class="form-control" id="winnerName" placeholder="ชื่อ-นามสกุล ผู้ชนะ">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-school"></i> โรงเรียน
-                            </label>
-                            <input type="text" class="form-control" id="winnerSchool" placeholder="ชื่อโรงเรียน">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-trophy"></i> ประเภทการแข่งขัน
-                            </label>
-                            <select class="form-control" id="winnerType">
-                                <option value="">เลือกประเภท</option>
-                                <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตถิ่นเวียงป้อ"</option>
-                                <option value="ขับร้องเพลงลูกทุ่งคาราโอเกะ">การแข่งขันขับร้องเพลงไทยลูกทุ่งคาราโอเกะ</option>
-                                <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
-                                <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
-                                <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-layer-group"></i> ระดับ/ประเภท
-                            </label>
-                            <input type="text" class="form-control" id="winnerCategory" placeholder="ระดับชั้น/ประเภท">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-medal"></i> อันดับรางวัล
-                            </label>
-                            <select class="form-control" id="winnerRank">
-                                <option value="">เลือกอันดับรางวัล</option>
-                                <option value="🥇 เหรียญทอง">🥇 เหรียญทอง (คะแนน 80 ขึ้นไป)</option>
-                                <option value="🥈 เหรียญเงิน">🥈 เหรียญเงิน (คะแนน 70-79)</option>
-                                <option value="🥉 เหรียญทองแดง">🥉 เหรียญทองแดง (คะแนน 60-69)</option>
-                                <option value="🎖️ เข้าร่วม">🎖️ เข้าร่วม (คะแนน 59 ลงมา)</option>
-                                <option value="🏆 ชนะเลิศ">🏆 ชนะเลิศ (กีฬา)</option>
-                                <option value="🥈 รองชนะเลิศ อันดับ 1">🥈 รองชนะเลิศ อันดับ 1 (กีฬา)</option>
-                                <option value="🥉 รองชนะเลิศ อันดับ 2">🥉 รองชนะเลิศ อันดับ 2 (กีฬา)</option>
-                                <option value="⭐ รางวัลพิเศษ">⭐ รางวัลพิเศษ</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-success" onclick="announceWinner()">
-                            <i class="fas fa-bullhorn"></i> ประกาศผลการแข่งขัน
-                        </button>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-school"></i> โรงเรียน
+                        </label>
+                        <input type="text" class="form-control" id="winnerSchool" placeholder="ชื่อโรงเรียน">
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-trophy"></i> ประเภทการแข่งขัน
+                        </label>
+                        <select class="form-control" id="winnerType">
+                            <option value="">เลือกประเภท</option>
+                            <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตดิ่นเวียงป้อ"</option>
+                            <option value="ขับร้องเพลงโฟลก์">การแข่งขันขับร้องเพลงโฟล์กลูกทุ่งจากราไทยณะ</option>
+                            <option value="อปไกะก้อง">การแข่งขันอปไกะก้อง</option>
+                            <option value="คีรีแก้ว">การแข่งขันคีรีแก้ว</option>
+                            <option value="ลูกกลองมือ">การแข่งขันทักษะการเล่นลูกกลองมือ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-layer-group"></i> ระดับ/ประเภท
+                        </label>
+                        <input type="text" class="form-control" id="winnerCategory" placeholder="ระดับชั้น/ประเภท">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-medal"></i> อันดับรางวัล
+                        </label>
+                        <select class="form-control" id="winnerRank">
+                            <option value="">เลือกอันดับรางวัล</option>
+                            <option value="🥇 ชนะเลิศ">🥇 รางวัลชนะเลิศ (ที่ 1)</option>
+                            <option value="🥈 รองชนะเลิศ อันดับ 1">🥈 รางวัลรองชนะเลิศ อันดับ 1 (ที่ 2)</option>
+                            <option value="🥉 รองชนะเลิศ อันดับ 2">🥉 รางวัลรองชนะเลิศ อันดับ 2 (ที่ 3)</option>
+                            <option value="🏅 ชมเชย">🏅 รางวัลชมเชย</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="announceWinner()">
+                        <i class="fas fa-bullhorn"></i> ประกาศผลการแข่งขัน
+                    </button>
                 </div>
             </div>
 
@@ -1242,68 +1185,40 @@
         // Competition categories mapping
         const competitionCategories = {
             'วาดภาพระบายสี': [
-                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้',
-                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค',
-                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค',
-                'ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น',
-                'ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น'
+                'ระดับชั้น ป.1-ป.2 ประเภทเดี่ยม',
+                'ระดับชั้น ป.3-ป.4 ประเภท ห้องดิก', 
+                'ระดับชั้น ป.5-ป.6 ประเภทห้องดิก',
+                'ระดับชั้น ม.ต้น หนุ่มสี วิชาดิก เครื่องมือเครื่องใช้ในชีวิตออกขุน',
+                'ระดับชั้น ม.ปลาย หนุ่มสี วิชาดิก เครื่องมือเครื่องใช้ในชีวิตออกขุน'
             ],
-            'ขับร้องเพลงลูกทุ่งคาราโอเกะ': [
+            'ขับร้องเพลงโฟลก์': [
                 'ระดับประถมศึกษา',
-                'ระดับมัธยมศึกษาตอนต้น',
-                'ระดับมัธยมศึกษาตอนปลาย'
+                'ระดับมัธยมศึกษาตอนต้น และ ระดับมัธยมศึกษาตอนปลาย'
             ],
-            'เซปักตะกร้อ': [
-                'ระดับประถมศึกษา - ประเภททีมชาย 3 คน',
-                'ระดับประถมศึกษา - ประเภททีมหญิง 3 คน'
+            'อปไกะก้อง': [
+                'ระดับประถมศึกษา - ประเภทพื้นบ้าน 3 คน',
+                'ระดับประถมศึกษา - ประเภทพื้นหนัง 3 คน'
             ],
-            'คริกเก็ต': [
-                'ระดับประถมศึกษา - ประเภทผสม (อายุไม่เกิน 12 ปี)'
+            'คีรีแก้ว': [
+                'ระดับประถมศึกษา - ประเภทเดชม'
             ],
-            'ทักษะลูกสองมือล่างวอลเลย์บอล': [
+            'ลูกกลองมือ': [
                 'ระดับประถมศึกษา - ประเภทเดี่ยว ชาย',
                 'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง'
             ]
         };
 
-        // Show specific section (SPA functionality)
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all nav buttons
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show selected section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // Add active class to clicked nav button
-            const activeBtn = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
-            
-            // Smooth scroll to top
+        // Smooth scroll function
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const headerOffset = 120;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
             window.scrollTo({
-                top: 0,
+                top: offsetPosition,
                 behavior: 'smooth'
             });
-            
-            // Load data if needed
-            if (sectionId === 'results') {
-                loadResults();
-            } else if (sectionId === 'dashboard') {
-                loadDashboardData();
-            }
         }
 
         // Update category options based on competition type
@@ -1451,63 +1366,25 @@
             }
         });
 
-        // Admin login function
-        function adminLogin() {
-            const password = document.getElementById('adminLoginPassword').value;
-            
-            if (password !== ADMIN_PASSWORD) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'รหัสผ่านไม่ถูกต้อง',
-                    text: 'กรุณากรอกรหัสผ่าน Admin ให้ถูกต้อง',
-                    confirmButtonColor: '#e74c3c'
-                });
-                return;
-            }
-            
-            // Hide login form and show admin panel
-            document.getElementById('adminLoginForm').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            
-            // Clear password field
-            document.getElementById('adminLoginPassword').value = '';
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'เข้าสู่ระบบสำเร็จ',
-                text: 'ยินดีต้อนรับ Admin!',
-                confirmButtonColor: '#27ae60',
-                timer: 1500
-            });
-        }
-
-        // Admin logout function  
-        function adminLogout() {
-            document.getElementById('adminLoginForm').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            
-            // Clear all admin form fields
-            document.getElementById('winnerName').value = '';
-            document.getElementById('winnerSchool').value = '';
-            document.getElementById('winnerType').value = '';
-            document.getElementById('winnerCategory').value = '';
-            document.getElementById('winnerRank').value = '';
-            
-            Swal.fire({
-                icon: 'info',
-                title: 'ออกจากระบบแล้ว',
-                confirmButtonColor: '#3498db',
-                timer: 1000
-            });
-        }
-
-        // Announce winner (updated to work with new admin system)
+        // Announce winner
         async function announceWinner() {
+            const password = document.getElementById('adminPassword').value;
             const winnerName = document.getElementById('winnerName').value;
             const winnerSchool = document.getElementById('winnerSchool').value;
             const winnerType = document.getElementById('winnerType').value;
             const winnerCategory = document.getElementById('winnerCategory').value;
             const winnerRank = document.getElementById('winnerRank').value;
+
+            // Validate admin password
+            if (password !== ADMIN_PASSWORD) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ถูกต้อง',
+                    text: 'กรุณากรอกรหัสผ่านผู้บริหารให้ถูกต้อง',
+                    confirmButtonColor: '#e74c3c'
+                });
+                return;
+            }
 
             // Validate inputs
             if (!winnerName || !winnerSchool || !winnerType || !winnerCategory || !winnerRank) {
@@ -1562,6 +1439,7 @@
                 });
 
                 // Clear form
+                document.getElementById('adminPassword').value = '';
                 document.getElementById('winnerName').value = '';
                 document.getElementById('winnerSchool').value = '';
                 document.getElementById('winnerType').value = '';
@@ -1626,14 +1504,10 @@
 
             // Sort winners by rank priority
             const rankOrder = {
-                '🥇 เหรียญทอง': 1,
-                '🏆 ชนะเลิศ': 1,
-                '🥈 เหรียญเงิน': 2,
+                '🥇 ชนะเลิศ': 1,
                 '🥈 รองชนะเลิศ อันดับ 1': 2,
-                '🥉 เหรียญทองแดง': 3,
                 '🥉 รองชนะเลิศ อันดับ 2': 3,
-                '🎖️ เข้าร่วม': 4,
-                '⭐ รางวัลพิเศษ': 5
+                '🏅 ชมเชย': 4
             };
 
             winners.sort((a, b) => {
@@ -1645,13 +1519,9 @@
             let html = '<div class="results-grid">';
             winners.forEach((winner, index) => {
                 let rankClass = '';
-                if (winner.rank.includes('เหรียญทอง') || winner.rank.includes('ชนะเลิศ')) {
-                    rankClass = 'gold';
-                } else if (winner.rank.includes('เหรียญเงิน') || winner.rank.includes('อันดับ 1')) {
-                    rankClass = 'silver';
-                } else if (winner.rank.includes('เหรียญทองแดง') || winner.rank.includes('อันดับ 2')) {
-                    rankClass = 'bronze';
-                }
+                if (winner.rank.includes('ชนะเลิศ')) rankClass = 'gold';
+                else if (winner.rank.includes('อันดับ 1')) rankClass = 'silver';
+                else if (winner.rank.includes('อันดับ 2')) rankClass = 'bronze';
 
                 html += `
                     <div class="result-card" style="animation-delay: ${index * 0.1}s">
@@ -1822,11 +1692,11 @@
                         label: 'จำนวนผู้ลงทะเบียน',
                         data: values,
                         backgroundColor: [
-                            'rgba(0, 210, 255, 0.8)',
-                            'rgba(58, 71, 213, 0.8)',
-                            'rgba(0, 210, 255, 0.6)',
-                            'rgba(58, 71, 213, 0.6)',
-                            'rgba(0, 210, 255, 0.4)'
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(240, 147, 251, 0.8)',
+                            'rgba(79, 172, 254, 0.8)',
+                            'rgba(0, 242, 254, 0.8)'
                         ],
                         borderRadius: 10,
                         borderWidth: 0
@@ -1881,14 +1751,14 @@
                     datasets: [{
                         data: values,
                         backgroundColor: [
-                            'rgba(0, 210, 255, 0.8)',
-                            'rgba(58, 71, 213, 0.8)',
-                            'rgba(0, 210, 255, 0.6)',
-                            'rgba(58, 71, 213, 0.6)',
-                            'rgba(0, 210, 255, 0.4)',
-                            'rgba(58, 71, 213, 0.4)',
-                            'rgba(0, 210, 255, 0.3)',
-                            'rgba(58, 71, 213, 0.3)'
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(240, 147, 251, 0.8)',
+                            'rgba(79, 172, 254, 0.8)',
+                            'rgba(0, 242, 254, 0.8)',
+                            'rgba(17, 153, 142, 0.8)',
+                            'rgba(56, 239, 125, 0.8)',
+                            'rgba(255, 215, 0, 0.8)'
                         ],
                         borderWidth: 0
                     }]
@@ -1917,13 +1787,6 @@
         window.addEventListener('load', () => {
             loadResults();
             loadDashboardData();
-            
-            // Add Enter key support for admin login
-            document.getElementById('adminLoginPassword').addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    adminLogin();
-                }
-            });
             
             // Auto-reload data every 30 seconds for real-time updates
             setInterval(() => {
@@ -1963,13 +1826,13 @@
         });
 
         function highlight(e) {
-            fileLabel.style.borderColor = '#3a47d5';
-            fileLabel.style.backgroundColor = 'rgba(58, 71, 213, 0.2)';
+            fileLabel.style.borderColor = '#764ba2';
+            fileLabel.style.backgroundColor = 'rgba(118, 75, 162, 0.2)';
         }
 
         function unhighlight(e) {
-            fileLabel.style.borderColor = '#00d2ff';
-            fileLabel.style.backgroundColor = 'rgba(0, 210, 255, 0.1)';
+            fileLabel.style.borderColor = '#667eea';
+            fileLabel.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
         }
 
         fileLabel.addEventListener('drop', handleDrop, false);
