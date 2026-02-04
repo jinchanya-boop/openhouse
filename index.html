@@ -5,19 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>งานนิทรรศการและนำเสนอผลงานนักเรียน – โรงเรียนสา</title>
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
@@ -825,12 +820,10 @@
     </style>
 </head>
 <body>
-    <!-- Live Indicator -->
     <div class="live-indicator">
         <i class="fas fa-broadcast-tower"></i> ผลการแข่งขันแบบเรียลไทม์
     </div>
 
-    <!-- Header -->
     <div class="header">
         <img src="https://img2.pic.in.th/pic/sa1.png" alt="โรงเรียนสา" class="logo">
         <h1>งานนิทรรศการและนำเสนอผลงานนักเรียน</h1>
@@ -838,7 +831,6 @@
         <div class="date">วันศุกร์ที่ 13 กุมภาพันธ์ 2569 ณ โรงเรียนสา อำเภอเวียงสา จังหวัดน่าน</div>
     </div>
 
-    <!-- Navigation -->
     <div class="nav-menu">
         <button class="nav-btn" onclick="scrollToSection('categories')">
             <i class="fas fa-list"></i> รายการแข่งขัน
@@ -855,7 +847,6 @@
     </div>
 
     <div class="container">
-        <!-- Section 0: Competition Categories -->
         <div id="categories" class="section">
             <div class="section-header">
                 <div class="section-icon">
@@ -943,7 +934,6 @@
             </div>
         </div>
 
-        <!-- Section 1: Registration Form -->
         <div id="registration" class="section">
             <div class="section-header">
                 <div class="section-icon">
@@ -1043,7 +1033,6 @@
             </form>
         </div>
 
-        <!-- Section 2: Results & Certificates -->
         <div id="results" class="section">
             <div class="section-header">
                 <div class="section-icon">
@@ -1055,7 +1044,6 @@
                 </div>
             </div>
 
-            <!-- Admin Login -->
             <div class="admin-box">
                 <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">
                     <i class="fas fa-shield-alt"></i> สำหรับผู้บริหาร - ประกาศผลการแข่งขัน
@@ -1120,7 +1108,6 @@
                 </div>
             </div>
 
-            <!-- Results Display -->
             <div id="resultsContainer">
                 <div class="empty-state">
                     <i class="fas fa-trophy"></i>
@@ -1130,7 +1117,6 @@
             </div>
         </div>
 
-        <!-- Section 3: Dashboard -->
         <div id="dashboard" class="section">
             <div class="section-header">
                 <div class="section-icon">
@@ -1142,7 +1128,6 @@
                 </div>
             </div>
 
-            <!-- Stats Cards -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">📝</div>
@@ -1166,7 +1151,6 @@
                 </div>
             </div>
 
-            <!-- Charts -->
             <div class="chart-container">
                 <div class="chart-title">
                     <i class="fas fa-chart-bar"></i> สถิติการลงทะเบียนแยกตามประเภทการแข่งขัน
@@ -1183,13 +1167,11 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
         <p><strong>พัฒนาโดย งานเทคโนโลยีสารสนเทศ :: โรงเรียนสา | Saschool</strong></p>
         <p>© 2569 งานนิทรรศการและนำเสนอผลงานนักเรียน โรงเรียนสา อำเภอเวียงสา จังหวัดน่าน</p>
     </div>
 
-    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
@@ -1343,26 +1325,23 @@
                 };
 
                 // Send to Google Apps Script
-                // Send to Google Apps Script
-const response = await fetch(SCRIPT_URL, {
-    method: 'POST',
-    // ลบ mode: 'no-cors' ออกแล้ว
-    // ลบ headers ออกแล้ว (Google Script ฉลาดพอที่จะอ่านค่าได้เองครับ)
-    body: new URLSearchParams(formData)
-});
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    // ลบ mode: 'no-cors' ออกแล้ว
+                    // ลบ headers ออกแล้ว (Google Script ฉลาดพอที่จะอ่านค่าได้เองครับ)
+                    body: new URLSearchParams(formData)
+                });
 
-// เพิ่มส่วนเช็คว่าส่งผ่านจริงไหม (ของเดิมเช็คไม่ได้เพราะติด no-cors)
-if (!response.ok) {
-    throw new Error('Network response was not ok');
-}
+                // เพิ่มส่วนเช็คว่าส่งผ่านจริงไหม (ของเดิมเช็คไม่ได้เพราะติด no-cors)
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-// อ่านค่าตอบกลับจาก Server เพื่อดูว่าสำเร็จจริงไหม
-const result = await response.json(); 
-if (!result.success) {
-    throw new Error(result.error || 'Unknown error');
-}
-
-// หลังจากบรรทัดนี้ ก็จะเป็น Swal.fire อันเดิมของคุณ...
+                // อ่านค่าตอบกลับจาก Server เพื่อดูว่าสำเร็จจริงไหม
+                const result = await response.json(); 
+                if (!result.success) {
+                    throw new Error(result.error || 'Unknown error');
+                }
 
                 // Success message
                 Swal.fire({
@@ -1449,14 +1428,21 @@ if (!result.success) {
                     rank: winnerRank
                 };
 
-                await fetch(SCRIPT_URL, {
+                // แก้ไข: ลบ headers และ mode: no-cors ออกแล้ว
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
                     body: new URLSearchParams(formData)
                 });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Unknown error');
+                }
 
                 Swal.fire({
                     icon: 'success',
@@ -1497,28 +1483,26 @@ if (!result.success) {
         }
 
         // Load results
-        // Load results
-async function loadResults() {
-    try {
-        // แก้ไข: ลบ headers ออกเช่นกัน
-        const response = await fetch(`${SCRIPT_URL}?action=getWinners`);
-        
-        if (!response.ok) throw new Error('Network response was not ok');
+        async function loadResults() {
+            try {
+                // แก้ไข: ลบ headers ออกแล้ว
+                const response = await fetch(`${SCRIPT_URL}?action=getWinners`);
+                
+                if (!response.ok) throw new Error('Network response was not ok');
 
-        const data = await response.json();
-        winnersData = data.winners || [];
+                const data = await response.json();
+                winnersData = data.winners || [];
 
-        displayResults(winnersData);
-    } catch (error) {
-        console.error('Error loading results:', error);
-        // Try to load from localStorage as fallback
-        const savedWinners = localStorage.getItem('winnersData');
-        if (savedWinners) {
-            winnersData = JSON.parse(savedWinners);
-            displayResults(winnersData);
+                displayResults(winnersData);
+            } catch (error) {
+                console.error('Error loading results:', error);
+                const savedWinners = localStorage.getItem('winnersData');
+                if (savedWinners) {
+                    winnersData = JSON.parse(savedWinners);
+                    displayResults(winnersData);
+                }
+            }
         }
-    }
-}
 
         // Display results
         function displayResults(winners) {
@@ -1679,38 +1663,37 @@ async function loadResults() {
         }
 
         // Load dashboard data
-        // Load dashboard data
-async function loadDashboardData() {
-    try {
-        // แก้ไข: ลบ headers ออก เพื่อไม่ให้ติด CORS Preflight
-        const response = await fetch(`${SCRIPT_URL}?action=getDashboard`); 
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
+        async function loadDashboardData() {
+            try {
+                // แก้ไข: ลบ headers ทิ้งไปเลยครับ ใส่แค่ URL พอ
+                const response = await fetch(`${SCRIPT_URL}?action=getDashboard`);
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
 
-        // Update stats
-        document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
-        document.getElementById('totalWinners').textContent = data.totalWinners || 0;
-        document.getElementById('totalCompetitions').textContent = data.totalCompetitions || 5;
-        document.getElementById('totalSchools').textContent = data.totalSchools || 0;
+                // Update stats
+                document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
+                document.getElementById('totalWinners').textContent = data.totalWinners || 0;
+                document.getElementById('totalCompetitions').textContent = data.totalCompetitions || 5;
+                document.getElementById('totalSchools').textContent = data.totalSchools || 0;
 
-        // Update charts
-        updateCompetitionChart(data.competitionStats || {});
-        updateSchoolChart(data.schoolStats || {});
+                // Update charts
+                updateCompetitionChart(data.competitionStats || {});
+                updateSchoolChart(data.schoolStats || {});
 
-    } catch (error) {
-        console.error('Error loading dashboard:', error);
-        // Use default values
-        document.getElementById('totalRegistrations').textContent = '0';
-        document.getElementById('totalWinners').textContent = '0';
-        document.getElementById('totalCompetitions').textContent = '5';
-        document.getElementById('totalSchools').textContent = '0';
-        
-        updateCompetitionChart({});
-        updateSchoolChart({});
-    }
-}
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                // Use default values
+                document.getElementById('totalRegistrations').textContent = '0';
+                document.getElementById('totalWinners').textContent = '0';
+                document.getElementById('totalCompetitions').textContent = '5';
+                document.getElementById('totalSchools').textContent = '0';
+                
+                updateCompetitionChart({});
+                updateSchoolChart({});
+            }
+        }
 
         // Competition Chart
         let competitionChart = null;
