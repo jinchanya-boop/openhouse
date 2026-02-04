@@ -28,9 +28,11 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --primary-gradient: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+            --secondary-gradient: linear-gradient(135deg, #FC466B 0%, #3F5EFB 100%);
+            --accent-gradient: linear-gradient(45deg, #FC466B 0%, #3F5EFB 100%);
+            --primary-color: #FC466B;
+            --secondary-color: #3F5EFB;
             --gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             --silver: linear-gradient(135deg, #C0C0C0 0%, #808080 100%);
             --bronze: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
@@ -38,8 +40,8 @@
             --text-light: #636e72;
             --bg-white: #ffffff;
             --bg-light: #f8f9fa;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.25);
+            --shadow: 0 10px 30px rgba(252, 70, 107, 0.15);
+            --shadow-hover: 0 15px 40px rgba(252, 70, 107, 0.25);
         }
 
         body {
@@ -301,15 +303,15 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(252, 70, 107, 0.1);
             background: white;
         }
 
         select.form-control {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FC466B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 20px;
@@ -334,8 +336,8 @@
             align-items: center;
             gap: 1rem;
             padding: 1.2rem;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 2px dashed #667eea;
+            background: linear-gradient(135deg, rgba(252, 70, 107, 0.1) 0%, rgba(63, 94, 251, 0.1) 100%);
+            border: 2px dashed var(--primary-color);
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -344,8 +346,8 @@
         }
 
         .file-input-label:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-            border-color: #764ba2;
+            background: linear-gradient(135deg, rgba(252, 70, 107, 0.2) 0%, rgba(63, 94, 251, 0.2) 100%);
+            border-color: var(--secondary-color);
         }
 
         .file-input-label i {
@@ -735,6 +737,23 @@
             }
         }
 
+        /* Page Management */
+        .page-section {
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Navigation Active State */
+        .nav-btn.active {
+            background: var(--secondary-gradient);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -840,16 +859,16 @@
 
     <!-- Navigation -->
     <div class="nav-menu">
-        <button class="nav-btn" onclick="scrollToSection('categories')">
+        <button class="nav-btn active" onclick="showSection('categories')">
             <i class="fas fa-list"></i> รายการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('registration')">
+        <button class="nav-btn" onclick="showSection('registration')">
             <i class="fas fa-edit"></i> ลงทะเบียน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('results')">
+        <button class="nav-btn" onclick="showSection('results')">
             <i class="fas fa-trophy"></i> ผลการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('dashboard')">
+        <button class="nav-btn" onclick="showSection('dashboard')">
             <i class="fas fa-chart-bar"></i> แดชบอร์ด
         </button>
     </div>
@@ -1229,17 +1248,44 @@
             ]
         };
 
-        // Smooth scroll function
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            const headerOffset = 120;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
+        // Show specific section (SPA functionality)
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Add active class to clicked nav button
+            const activeBtn = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Smooth scroll to top
             window.scrollTo({
-                top: offsetPosition,
+                top: 0,
                 behavior: 'smooth'
             });
+            
+            // Load data if needed
+            if (sectionId === 'results') {
+                loadResults();
+            } else if (sectionId === 'dashboard') {
+                loadDashboardData();
+            }
         }
 
         // Update category options based on competition type
@@ -1855,13 +1901,13 @@
         });
 
         function highlight(e) {
-            fileLabel.style.borderColor = '#764ba2';
-            fileLabel.style.backgroundColor = 'rgba(118, 75, 162, 0.2)';
+            fileLabel.style.borderColor = var(--secondary-color);
+            fileLabel.style.backgroundColor = 'rgba(63, 94, 251, 0.2)';
         }
 
         function unhighlight(e) {
-            fileLabel.style.borderColor = '#667eea';
-            fileLabel.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
+            fileLabel.style.borderColor = var(--primary-color);
+            fileLabel.style.backgroundColor = 'rgba(252, 70, 107, 0.1)';
         }
 
         fileLabel.addEventListener('drop', handleDrop, false);
