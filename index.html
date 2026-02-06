@@ -621,6 +621,82 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Registrations Table */
+        .registrations-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .registrations-table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .registrations-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .registrations-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .registrations-table tbody tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .registrations-table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .registrations-table tbody tr.selected {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .select-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .select-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .badge-success {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -837,67 +913,132 @@
                 </div>
             </div>
 
-            <div class="admin-box">
-                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+            <!-- Admin Login Box -->
+            <div class="admin-box" id="adminLoginBox">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark); text-align: center;">
                     <i class="fas fa-shield-alt"></i> สำหรับผู้บริหาร - ประกาศผลการแข่งขัน
                 </h3>
-                <div class="admin-controls">
+                <p style="text-align: center; color: var(--text-light); margin-bottom: 2rem;">
+                    กรุณาเข้าสู่ระบบด้วยรหัสผ่านผู้บริหาร
+                </p>
+                <div style="max-width: 400px; margin: 0 auto;">
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fas fa-key"></i> รหัสผ่าน
+                            <i class="fas fa-key"></i> รหัสผ่านผู้บริหาร
                         </label>
-                        <input type="password" class="form-control" id="adminPassword" placeholder="กรอกรหัสผ่าน">
+                        <input type="password" class="form-control" id="adminLoginPassword" placeholder="กรอกรหัสผ่าน" onkeypress="if(event.key === 'Enter') adminLogin()">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-user"></i> ชื่อผู้ได้รับรางวัล
-                        </label>
-                        <input type="text" class="form-control" id="winnerName" placeholder="ชื่อ-นามสกุล ผู้ชนะ">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-school"></i> โรงเรียน
-                        </label>
-                        <input type="text" class="form-control" id="winnerSchool" placeholder="ชื่อโรงเรียน">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-trophy"></i> ประเภทการแข่งขัน
-                        </label>
-                        <select class="form-control" id="winnerType">
-                            <option value="">เลือกประเภท</option>
-                            <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตถิ่นเวียงป้อ"</option>
-                            <option value="ขับร้องเพลงลูกทุ่งคาราโอเกะ">การแข่งขันขับร้องเพลงไทยลูกทุ่งคาราโอเกะ</option>
-                            <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
-                            <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
-                            <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-layer-group"></i> ระดับ/ประเภท
-                        </label>
-                        <input type="text" class="form-control" id="winnerCategory" placeholder="ระดับชั้น/ประเภท">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-medal"></i> อันดับรางวัล
-                        </label>
-                        <select class="form-control" id="winnerRank">
-                            <option value="">เลือกอันดับรางวัล</option>
-                            <option value="🥇 เหรียญทอง">🥇 เหรียญทอง (คะแนน 80 ขึ้นไป)</option>
-                            <option value="🥈 เหรียญเงิน">🥈 เหรียญเงิน (คะแนน 70-79)</option>
-                            <option value="🥉 เหรียญทองแดง">🥉 เหรียญทองแดง (คะแนน 60-69)</option>
-                            <option value="🎖️ เข้าร่วม">🎖️ เข้าร่วม (คะแนน 59 ลงมา)</option>
-                            <option value="🏆 ชนะเลิศ">🏆 ชนะเลิศ (กีฬา)</option>
-                            <option value="🥈 รองชนะเลิศ อันดับ 1">🥈 รองชนะเลิศ อันดับ 1 (กีฬา)</option>
-                            <option value="🥉 รองชนะเลิศ อันดับ 2">🥉 รองชนะเลิศ อันดับ 2 (กีฬา)</option>
-                            <option value="⭐ รางวัลพิเศษ">⭐ รางวัลพิเศษ</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-success" onclick="announceWinner()">
-                        <i class="fas fa-bullhorn"></i> ประกาศผลการแข่งขัน
+                    <button class="btn btn-primary btn-block" onclick="adminLogin()">
+                        <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                     </button>
+                </div>
+            </div>
+
+            <!-- Admin Form Box (Hidden by default) -->
+            <div class="admin-box" id="adminFormBox" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--text-dark); margin: 0;">
+                        <i class="fas fa-shield-alt"></i> ประกาศผลการแข่งขัน
+                    </h3>
+                    <button class="btn" style="padding: 0.5rem 1rem; background: #e74c3c; color: white; font-size: 0.9rem;" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                    </button>
+                </div>
+
+                <!-- Filter Section -->
+                <div style="background: rgba(102, 126, 234, 0.05); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-dark); font-size: 1.1rem;">
+                        <i class="fas fa-filter"></i> กรองข้อมูลผู้สมัคร
+                    </h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-trophy"></i> ประเภทการแข่งขัน
+                            </label>
+                            <select class="form-control" id="filterCompetitionType" onchange="filterRegistrations()">
+                                <option value="">ทั้งหมด</option>
+                                <option value="วาดภาพระบายสี">การแข่งขันวาดภาพระบายสี "วิถีชีวิตถิ่นเวียงป้อ"</option>
+                                <option value="ขับร้องเพลงลูกทุ่งคาราโอเกะ">การแข่งขันขับร้องเพลงไทยลูกทุ่งคาราโอเกะ</option>
+                                <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
+                                <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
+                                <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-layer-group"></i> ระดับชั้น/ประเภท
+                            </label>
+                            <select class="form-control" id="filterCategory" onchange="filterRegistrations()">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registrations List -->
+                <div id="registrationsList" style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-dark); font-size: 1.1rem;">
+                        <i class="fas fa-users"></i> รายชื่อผู้ลงทะเบียน (<span id="registrationsCount">0</span> คน)
+                    </h4>
+                    <div id="registrationsTable" style="overflow-x: auto;">
+                        <!-- Table will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Award Form -->
+                <div style="background: rgba(39, 174, 96, 0.05); padding: 1.5rem; border-radius: 15px;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-dark); font-size: 1.1rem;">
+                        <i class="fas fa-medal"></i> ข้อมูลผู้ได้รับรางวัล
+                    </h4>
+                    <div class="admin-controls">
+                        <input type="hidden" id="selectedRegistrationId">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i> ชื่อผู้ได้รับรางวัล
+                            </label>
+                            <input type="text" class="form-control" id="winnerName" placeholder="เลือกจากรายชื่อด้านบน" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-school"></i> โรงเรียน
+                            </label>
+                            <input type="text" class="form-control" id="winnerSchool" placeholder="จะแสดงอัตโนมัติ" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-trophy"></i> ประเภทการแข่งขัน
+                            </label>
+                            <input type="text" class="form-control" id="winnerType" placeholder="จะแสดงอัตโนมัติ" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-layer-group"></i> ระดับ/ประเภท
+                            </label>
+                            <input type="text" class="form-control" id="winnerCategory" placeholder="จะแสดงอัตโนมัติ" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-medal"></i> อันดับรางวัล <span style="color: red;">*</span>
+                            </label>
+                            <select class="form-control" id="winnerRank">
+                                <option value="">เลือกอันดับรางวัล</option>
+                                <option value="🥇 เหรียญทอง">🥇 เหรียญทอง (คะแนน 80 ขึ้นไป)</option>
+                                <option value="🥈 เหรียญเงิน">🥈 เหรียญเงิน (คะแนน 70-79)</option>
+                                <option value="🥉 เหรียญทองแดง">🥉 เหรียญทองแดง (คะแนน 60-69)</option>
+                                <option value="🎖️ เข้าร่วม">🎖️ เข้าร่วม (คะแนน 59 ลงมา)</option>
+                                <option value="🏆 ชนะเลิศ">🏆 ชนะเลิศ (กีฬา)</option>
+                                <option value="🥈 รองชนะเลิศ อันดับ 1">🥈 รองชนะเลิศ อันดับ 1 (กีฬา)</option>
+                                <option value="🥉 รองชนะเลิศ อันดับ 2">🥉 รองชนะเลิศ อันดับ 2 (กีฬา)</option>
+                                <option value="⭐ รางวัลพิเศษ">⭐ รางวัลพิเศษ</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="announceWinner()">
+                            <i class="fas fa-bullhorn"></i> ประกาศผลการแข่งขัน
+                        </button>
+                        <button class="btn" style="background: #95a5a6; color: white;" onclick="clearWinnerForm()">
+                            <i class="fas fa-times"></i> ล้างข้อมูล
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -972,8 +1113,10 @@
 
         // Global variables
         let registrationsData = [];
+        let filteredRegistrations = [];
         let winnersData = [];
         let isSubmitting = false; // ป้องกันการ submit ซ้ำ
+        let isAdminLoggedIn = false; // สถานะการ login
 
         // Competition categories mapping
         const competitionCategories = {
@@ -1233,30 +1376,18 @@
 
         // Announce winner
         async function announceWinner() {
-            const password = document.getElementById('adminPassword').value;
             const winnerName = document.getElementById('winnerName').value;
             const winnerSchool = document.getElementById('winnerSchool').value;
             const winnerType = document.getElementById('winnerType').value;
             const winnerCategory = document.getElementById('winnerCategory').value;
             const winnerRank = document.getElementById('winnerRank').value;
 
-            // Validate admin password
-            if (password !== ADMIN_PASSWORD) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'รหัสผ่านไม่ถูกต้อง',
-                    text: 'กรุณากรอกรหัสผ่านผู้บริหารให้ถูกต้อง',
-                    confirmButtonColor: '#e74c3c'
-                });
-                return;
-            }
-
             // Validate inputs
             if (!winnerName || !winnerSchool || !winnerType || !winnerCategory || !winnerRank) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                    text: 'โปรดระบุข้อมูลผู้ได้รับรางวัลให้ครบทุกช่อง',
+                    text: 'โปรดเลือกผู้สมัครและระบุรางวัลที่ได้รับ',
                     confirmButtonColor: '#f39c12'
                 });
                 return;
@@ -1306,12 +1437,7 @@
                 });
 
                 // Clear form
-                document.getElementById('adminPassword').value = '';
-                document.getElementById('winnerName').value = '';
-                document.getElementById('winnerSchool').value = '';
-                document.getElementById('winnerType').value = '';
-                document.getElementById('winnerCategory').value = '';
-                document.getElementById('winnerRank').value = '';
+                clearWinnerForm();
 
                 showToast('ประกาศผลสำเร็จ!', 'success');
 
@@ -1332,6 +1458,235 @@
                 
                 showToast('เกิดข้อผิดพลาดในการประกาศผล', 'error');
             }
+        }
+
+        // Admin Login
+        function adminLogin() {
+            const password = document.getElementById('adminLoginPassword').value;
+
+            if (!password) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณากรอกรหัสผ่าน',
+                    text: 'โปรดระบุรหัสผ่านผู้บริหาร',
+                    confirmButtonColor: '#f39c12'
+                });
+                return;
+            }
+
+            if (password !== ADMIN_PASSWORD) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ถูกต้อง',
+                    text: 'กรุณากรอกรหัสผ่านผู้บริหารให้ถูกต้อง',
+                    confirmButtonColor: '#e74c3c'
+                });
+                document.getElementById('adminLoginPassword').value = '';
+                return;
+            }
+
+            // Login successful
+            isAdminLoggedIn = true;
+            document.getElementById('adminLoginBox').style.display = 'none';
+            document.getElementById('adminFormBox').style.display = 'block';
+            document.getElementById('adminLoginPassword').value = '';
+
+            showToast('เข้าสู่ระบบสำเร็จ', 'success');
+
+            // Load registrations
+            loadRegistrationsForAdmin();
+        }
+
+        // Admin Logout
+        function adminLogout() {
+            Swal.fire({
+                title: 'ออกจากระบบ?',
+                text: 'คุณต้องการออกจากระบบผู้บริหารหรือไม่?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#e74c3c',
+                cancelButtonColor: '#95a5a6',
+                confirmButtonText: 'ออกจากระบบ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    isAdminLoggedIn = false;
+                    document.getElementById('adminLoginBox').style.display = 'block';
+                    document.getElementById('adminFormBox').style.display = 'none';
+                    clearWinnerForm();
+                    registrationsData = [];
+                    filteredRegistrations = [];
+                    
+                    showToast('ออกจากระบบแล้ว', 'success');
+                }
+            });
+        }
+
+        // Load Registrations for Admin
+        async function loadRegistrationsForAdmin() {
+            try {
+                updateConnectionStatus('loading');
+                
+                const response = await fetch(`${SCRIPT_URL}?action=getRegistrations`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    registrationsData = result.registrations || [];
+                    filteredRegistrations = registrationsData;
+                    displayRegistrationsTable(filteredRegistrations);
+                    
+                    updateConnectionStatus('online');
+                } else {
+                    throw new Error(result.error || 'Failed to load registrations');
+                }
+
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                updateConnectionStatus('error');
+                showToast('ไม่สามารถโหลดข้อมูลผู้สมัครได้', 'error');
+            }
+        }
+
+        // Filter Registrations
+        function filterRegistrations() {
+            const competitionType = document.getElementById('filterCompetitionType').value;
+            const category = document.getElementById('filterCategory').value;
+
+            filteredRegistrations = registrationsData.filter(reg => {
+                let match = true;
+                
+                if (competitionType && reg.competitionType !== competitionType) {
+                    match = false;
+                }
+                
+                if (category && reg.category !== category) {
+                    match = false;
+                }
+                
+                return match;
+            });
+
+            displayRegistrationsTable(filteredRegistrations);
+        }
+
+        // Update category filter based on competition type
+        document.getElementById('filterCompetitionType').addEventListener('change', function() {
+            const competitionType = this.value;
+            const categorySelect = document.getElementById('filterCategory');
+            
+            // Clear existing options
+            categorySelect.innerHTML = '<option value="">ทั้งหมด</option>';
+            
+            if (competitionType && competitionCategories[competitionType]) {
+                competitionCategories[competitionType].forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    categorySelect.appendChild(option);
+                });
+            }
+        });
+
+        // Display Registrations Table
+        function displayRegistrationsTable(registrations) {
+            const container = document.getElementById('registrationsTable');
+            const countElement = document.getElementById('registrationsCount');
+            
+            countElement.textContent = registrations.length;
+
+            if (!registrations || registrations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 2rem;">
+                        <i class="fas fa-users"></i>
+                        <h4>ไม่พบรายชื่อผู้สมัคร</h4>
+                        <p>ยังไม่มีผู้สมัครในประเภทนี้</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="registrations-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">#</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>โรงเรียน</th>
+                            <th>ประเภทการแข่งขัน</th>
+                            <th>ระดับ/ประเภท</th>
+                            <th style="width: 120px;">เลือก</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            registrations.forEach((reg, index) => {
+                html += `
+                    <tr id="reg-row-${index}">
+                        <td>${index + 1}</td>
+                        <td><strong>${reg.name || ''}</strong></td>
+                        <td>${reg.school || ''}</td>
+                        <td><span class="badge badge-primary">${reg.competitionType || ''}</span></td>
+                        <td>${reg.category || ''}</td>
+                        <td>
+                            <button class="select-btn" onclick="selectRegistration(${index})">
+                                <i class="fas fa-hand-pointer"></i> เลือก
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Select Registration
+        function selectRegistration(index) {
+            const reg = filteredRegistrations[index];
+            
+            // Remove previous selection
+            document.querySelectorAll('.registrations-table tbody tr').forEach(row => {
+                row.classList.remove('selected');
+            });
+            
+            // Add selection to clicked row
+            const row = document.getElementById(`reg-row-${index}`);
+            if (row) {
+                row.classList.add('selected');
+            }
+
+            // Fill winner form
+            document.getElementById('winnerName').value = reg.name || '';
+            document.getElementById('winnerSchool').value = reg.school || '';
+            document.getElementById('winnerType').value = reg.competitionType || '';
+            document.getElementById('winnerCategory').value = reg.category || '';
+            
+            // Clear rank selection
+            document.getElementById('winnerRank').value = '';
+
+            // Scroll to form
+            document.getElementById('winnerRank').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            showToast('เลือกผู้สมัครแล้ว กรุณาเลือกรางวัล', 'success');
+        }
+
+        // Clear Winner Form
+        function clearWinnerForm() {
+            document.getElementById('winnerName').value = '';
+            document.getElementById('winnerSchool').value = '';
+            document.getElementById('winnerType').value = '';
+            document.getElementById('winnerCategory').value = '';
+            document.getElementById('winnerRank').value = '';
+            
+            // Remove selection
+            document.querySelectorAll('.registrations-table tbody tr').forEach(row => {
+                row.classList.remove('selected');
+            });
         }
 
         // Load results
