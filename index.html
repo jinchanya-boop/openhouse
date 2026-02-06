@@ -773,6 +773,109 @@
                 grid-template-columns: 1fr !important;
             }
         }
+
+        /* Winners Table */
+        .competition-results-section {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid #667eea;
+        }
+
+        .competition-results-header {
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .winners-table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .winners-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .winners-table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .winners-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .winners-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .winners-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .winners-table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .winners-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .btn-download-cert {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+        }
+
+        .btn-download-cert:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-download-cert:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive for Winners Table */
+        @media (max-width: 968px) {
+            .winners-table {
+                font-size: 0.8rem;
+            }
+
+            .winners-table th,
+            .winners-table td {
+                padding: 0.6rem 0.4rem;
+            }
+
+            .btn-download-cert {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .competition-results-section {
+                padding: 1.5rem 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1835,25 +1938,98 @@
                 return;
             }
 
-            let html = '<div class="results-grid">';
-            winners.forEach((winner, index) => {
+            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขัน
+            const groupedWinners = {};
+            winners.forEach(winner => {
+                const type = winner.type || 'อื่นๆ';
+                if (!groupedWinners[type]) {
+                    groupedWinners[type] = [];
+                }
+                groupedWinners[type].push(winner);
+            });
+
+            let html = '';
+
+            // สร้าง section สำหรับแต่ละประเภท
+            Object.keys(groupedWinners).forEach((type, typeIndex) => {
+                const typeWinners = groupedWinners[type];
+                
                 html += `
-                    <div class="result-card" style="animation-delay: ${index * 0.1}s">
-                        <div class="result-rank">${winner.rank || ''}</div>
-                        <div class="result-name">${winner.name || ''}</div>
-                        <div class="result-school">
-                            <i class="fas fa-school"></i> ${winner.school || ''}
+                    <div class="competition-results-section" style="margin-bottom: 3rem;">
+                        <div class="competition-results-header">
+                            <h3 style="color: var(--text-dark); font-size: 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-trophy" style="color: #f39c12;"></i>
+                                ${type}
+                            </h3>
+                            <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+                                <i class="fas fa-award"></i> มีผู้ได้รับรางวัล ${typeWinners.length} คน
+                            </p>
                         </div>
-                        <div style="font-size: 0.9rem; margin-bottom: 1rem;">${winner.type || ''}</div>
-                        <button class="btn-certificate" onclick="downloadCertificate('${winner.name || ''}', '${winner.school || ''}', '${winner.type || ''}', '${winner.category || ''}', '${winner.rank || ''}')">
-                            <i class="fas fa-download"></i> ดาวน์โหลดเกียรติบัตร
-                        </button>
+
+                        <div class="winners-table-container">
+                            <table class="winners-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;">อันดับ</th>
+                                        <th style="width: 80px;">รางวัล</th>
+                                        <th>ชื่อ-นามสกุล</th>
+                                        <th>โรงเรียน</th>
+                                        <th>ระดับ/ประเภท</th>
+                                        <th style="width: 150px; text-align: center;">ดาวน์โหลด</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+
+                // เรียงลำดับตามรางวัล (ชนะเลิศ > รองฯ 1 > รองฯ 2 > ชมเชย)
+                const rankOrder = {
+                    '🏆 รางวัลชนะเลิศ': 1,
+                    '🥈 รางวัลรองชนะเลิศ อันดับที่ 1': 2,
+                    '🥉 รางวัลรองชนะเลิศ อันดับที่ 2': 3,
+                    '⭐ รางวัลชมเชย': 4
+                };
+
+                typeWinners.sort((a, b) => {
+                    const orderA = rankOrder[a.rank] || 99;
+                    const orderB = rankOrder[b.rank] || 99;
+                    return orderA - orderB;
+                });
+
+                typeWinners.forEach((winner, index) => {
+                    const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
+                    const rankText = winner.rank ? winner.rank.substring(winner.rank.indexOf(' ') + 1) : 'รางวัล';
+                    
+                    html += `
+                        <tr>
+                            <td style="text-align: center; font-weight: 600;">${index + 1}</td>
+                            <td style="text-align: center; font-size: 1.8rem;">${rankEmoji}</td>
+                            <td><strong>${winner.name || ''}</strong></td>
+                            <td><i class="fas fa-school" style="color: var(--text-light); margin-right: 0.3rem;"></i>${winner.school || ''}</td>
+                            <td><span class="badge badge-primary">${winner.category || ''}</span></td>
+                            <td style="text-align: center;">
+                                <button class="btn-download-cert" onclick="downloadCertificate('${escapeQuotes(winner.name)}', '${escapeQuotes(winner.school)}', '${escapeQuotes(winner.type)}', '${escapeQuotes(winner.category)}', '${escapeQuotes(winner.rank)}')">
+                                    <i class="fas fa-download"></i> เกียรติบัตร
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 `;
             });
-            html += '</div>';
-            
+
             container.innerHTML = html;
+        }
+
+        // Escape quotes for onclick attributes
+        function escapeQuotes(str) {
+            if (!str) return '';
+            return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
         // Download certificate function using jsPDF
