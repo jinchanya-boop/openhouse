@@ -19,9 +19,9 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --primary-gradient: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+            --secondary-gradient: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+            --accent-gradient: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
             --text-dark: #2d3436;
             --text-light: #636e72;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -125,8 +125,8 @@
 
         .nav-btn:hover {
             transform: translateY(-3px);
-            background: rgba(102, 126, 234, 0.1);
-            border-color: #667eea;
+            background: rgba(0, 210, 255, 0.1);
+            border-color: #00d2ff;
         }
 
         .nav-btn.active {
@@ -222,8 +222,8 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: #00d2ff;
+            box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1);
             background: white;
         }
 
@@ -255,8 +255,8 @@
             align-items: center;
             gap: 1rem;
             padding: 1.2rem;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 2px dashed #667eea;
+            background: linear-gradient(90deg, rgba(0, 210, 255, 0.1) 0%, rgba(58, 71, 213, 0.1) 100%);
+            border: 2px dashed #00d2ff;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -265,8 +265,8 @@
         }
 
         .file-input-label:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-            border-color: #764ba2;
+            background: linear-gradient(90deg, rgba(0, 210, 255, 0.2) 0%, rgba(58, 71, 213, 0.2) 100%);
+            border-color: #3a47d5;
         }
 
         .file-name {
@@ -314,11 +314,11 @@
 
         /* Admin Section */
         .admin-box {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
+            background: linear-gradient(90deg, rgba(0, 210, 255, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
             border-radius: 25px;
             padding: 2rem;
             margin-bottom: 2rem;
-            border: 2px solid rgba(102, 126, 234, 0.2);
+            border: 2px solid rgba(0, 210, 255, 0.2);
         }
 
         .admin-controls {
@@ -515,7 +515,8 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            border-left: 4px solid var(--primary-gradient);
+            border-left: 4px solid;
+            border-image: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%) 1;
         }
 
         .category-card:hover {
@@ -635,7 +636,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #667eea;
+            border-top: 5px solid #00d2ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -679,12 +680,12 @@
         }
 
         .registrations-table tbody tr:hover {
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(0, 210, 255, 0.05);
         }
 
         .registrations-table tbody tr.selected {
-            background: rgba(102, 126, 234, 0.1);
-            border-left: 4px solid #667eea;
+            background: rgba(0, 210, 255, 0.1);
+            border-left: 4px solid #00d2ff;
         }
 
         .select-btn {
@@ -712,8 +713,8 @@
         }
 
         .badge-primary {
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
+            background: rgba(0, 210, 255, 0.1);
+            color: #3a47d5;
         }
 
         .badge-success {
@@ -727,7 +728,7 @@
             border-radius: 15px;
             padding: 1rem;
             margin-bottom: 0.8rem;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #00d2ff;
             transition: all 0.3s ease;
         }
 
@@ -779,11 +780,11 @@
             background: rgba(255, 255, 255, 0.5);
             border-radius: 20px;
             padding: 2rem;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #00d2ff;
         }
 
         .competition-results-header {
-            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+            border-bottom: 2px solid rgba(0, 210, 255, 0.2);
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -824,7 +825,7 @@
         }
 
         .winners-table tbody tr:hover {
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(0, 210, 255, 0.05);
         }
 
         .winners-table tbody tr:last-child td {
@@ -1547,7 +1548,7 @@
                             ${result.registrationNumber ? `<p><strong>หมายเลขลงทะเบียน:</strong> ${result.registrationNumber}</p>` : ''}
                         `,
                         confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#667eea'
+                        confirmButtonColor: '#00d2ff'
                     });
 
                     showToast('ลงทะเบียนสำเร็จ!', 'success');
@@ -2235,11 +2236,11 @@
                         label: 'จำนวนผู้ลงทะเบียน',
                         data: values,
                         backgroundColor: [
-                            'rgba(102, 126, 234, 0.8)',
-                            'rgba(118, 75, 162, 0.8)',
-                            'rgba(240, 147, 251, 0.8)',
-                            'rgba(79, 172, 254, 0.8)',
-                            'rgba(0, 242, 254, 0.8)'
+                            'rgba(0, 210, 255, 0.8)',
+                            'rgba(58, 71, 213, 0.8)',
+                            'rgba(0, 210, 255, 0.6)',
+                            'rgba(58, 71, 213, 0.6)',
+                            'rgba(0, 210, 255, 0.4)'
                         ],
                         borderRadius: 10,
                         borderWidth: 0
@@ -2294,14 +2295,14 @@
                     datasets: [{
                         data: values,
                         backgroundColor: [
-                            'rgba(102, 126, 234, 0.8)',
-                            'rgba(118, 75, 162, 0.8)',
-                            'rgba(240, 147, 251, 0.8)',
-                            'rgba(79, 172, 254, 0.8)',
-                            'rgba(0, 242, 254, 0.8)',
-                            'rgba(17, 153, 142, 0.8)',
-                            'rgba(56, 239, 125, 0.8)',
-                            'rgba(255, 215, 0, 0.8)'
+                            'rgba(0, 210, 255, 0.9)',
+                            'rgba(58, 71, 213, 0.9)',
+                            'rgba(0, 210, 255, 0.7)',
+                            'rgba(58, 71, 213, 0.7)',
+                            'rgba(0, 210, 255, 0.5)',
+                            'rgba(58, 71, 213, 0.5)',
+                            'rgba(0, 210, 255, 0.3)',
+                            'rgba(58, 71, 213, 0.3)'
                         ],
                         borderWidth: 0
                     }]
