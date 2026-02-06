@@ -105,24 +105,34 @@
             gap: 1rem;
             flex-wrap: wrap;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
         }
 
         .nav-btn {
             padding: 0.8rem 1.5rem;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
+            border: 2px solid transparent;
             border-radius: 50px;
             cursor: pointer;
             font-family: 'Kanit', sans-serif;
             font-weight: 500;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow);
         }
 
         .nav-btn:hover {
             transform: translateY(-3px);
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+        }
+
+        .nav-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow);
         }
 
         /* Container */
@@ -141,6 +151,10 @@
             margin-bottom: 2rem;
             box-shadow: var(--shadow);
             scroll-margin-top: 120px;
+        }
+
+        .section.hidden {
+            display: none;
         }
 
         .section-header {
@@ -713,16 +727,16 @@
     </div>
 
     <div class="nav-menu">
-        <button class="nav-btn" onclick="scrollToSection('categories')">
+        <button class="nav-btn active" onclick="showSection('categories')" id="nav-categories">
             <i class="fas fa-list"></i> รายการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('registration')">
+        <button class="nav-btn" onclick="showSection('registration')" id="nav-registration">
             <i class="fas fa-edit"></i> ลงทะเบียน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('results')">
+        <button class="nav-btn" onclick="showSection('results')" id="nav-results">
             <i class="fas fa-trophy"></i> ผลการแข่งขัน
         </button>
-        <button class="nav-btn" onclick="scrollToSection('dashboard')">
+        <button class="nav-btn" onclick="showSection('dashboard')" id="nav-dashboard">
             <i class="fas fa-chart-bar"></i> แดชบอร์ด
         </button>
     </div>
@@ -802,7 +816,7 @@
         </div>
 
         <!-- Registration Section -->
-        <div id="registration" class="section">
+        <div id="registration" class="section hidden">
             <div class="section-header">
                 <div class="section-icon">
                     <i class="fas fa-pen-fancy"></i>
@@ -902,7 +916,7 @@
         </div>
 
         <!-- Results Section -->
-        <div id="results" class="section">
+        <div id="results" class="section hidden">
             <div class="section-header">
                 <div class="section-icon">
                     <i class="fas fa-trophy"></i>
@@ -1048,7 +1062,7 @@
         </div>
 
         <!-- Dashboard Section -->
-        <div id="dashboard" class="section">
+        <div id="dashboard" class="section hidden">
             <div class="section-header">
                 <div class="section-icon">
                     <i class="fas fa-chart-pie"></i>
@@ -1176,17 +1190,38 @@
             }, 4000);
         }
 
-        // Smooth scroll function
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            const headerOffset = 120;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+        // Show Section - Tab Navigation
+        function showSection(sectionId) {
+            // ซ่อนทุก section
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
             });
+
+            // แสดง section ที่เลือก
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.remove('hidden');
+            }
+
+            // อัพเดต active state ของ nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const activeBtn = document.getElementById('nav-' + sectionId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // โหลดข้อมูลตาม section
+            if (sectionId === 'dashboard') {
+                loadDashboardData();
+            } else if (sectionId === 'results') {
+                loadResults();
+            }
         }
 
         // Update category options based on competition type
@@ -1989,30 +2024,26 @@
         window.addEventListener('load', () => {
             updateConnectionStatus('loading');
             
-            // Initialize data loading
-            loadResults();
-            loadDashboardData();
-            
-            // Auto-reload data every 30 seconds
-            setInterval(() => {
-                if (navigator.onLine) {
-                    loadResults();
-                    loadDashboardData();
-                }
-            }, 30000);
+            // Initialize data loading สำหรับหน้าแรก
+            // ไม่โหลดข้อมูลทั้งหมดตั้งแต่เริ่ม เพื่อลดการโหลด
             
             // Online/Offline detection
             window.addEventListener('online', () => {
                 updateConnectionStatus('online');
                 showToast('เชื่อมต่ออินเทอร์เน็ตแล้ว', 'success');
-                loadResults();
-                loadDashboardData();
             });
             
             window.addEventListener('offline', () => {
                 updateConnectionStatus('offline');
                 showToast('ไม่มีการเชื่อมต่ออินเทอร์เน็ต', 'error');
             });
+
+            // Set initial connection status
+            if (navigator.onLine) {
+                updateConnectionStatus('online');
+            } else {
+                updateConnectionStatus('offline');
+            }
         });
     </script>
 </body>
