@@ -278,6 +278,11 @@
             box-shadow: var(--shadow);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .btn-primary {
             background: var(--primary-gradient);
             color: white;
@@ -814,7 +819,7 @@
                     <div id="fileName" class="file-name"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">
+                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
                     <i class="fas fa-paper-plane"></i> ส่งใบสมัครเข้าร่วมการแข่งขัน
                 </button>
             </form>
@@ -968,8 +973,7 @@
         // Global variables
         let registrationsData = [];
         let winnersData = [];
-        let connectionRetryCount = 0;
-        const maxRetries = 3;
+        let isSubmitting = false; // ป้องกันการ submit ซ้ำ
 
         // Competition categories mapping
         const competitionCategories = {
@@ -1103,48 +1107,20 @@
             });
         }
 
-        // Enhanced fetch with retry mechanism
-        async function fetchWithRetry(url, options = {}, retries = maxRetries) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    updateConnectionStatus('loading');
-                    
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-                    
-                    const response = await fetch(url, {
-                        ...options,
-                        signal: controller.signal
-                    });
-                    
-                    clearTimeout(timeoutId);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    updateConnectionStatus('online');
-                    connectionRetryCount = 0; // Reset retry count on success
-                    return data;
-                    
-                } catch (error) {
-                    console.error(`Attempt ${i + 1} failed:`, error);
-                    
-                    if (i === retries - 1) {
-                        updateConnectionStatus('error');
-                        throw error;
-                    }
-                    
-                    // Wait before retrying (exponential backoff)
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
-                }
-            }
-        }
-
-        // Registration form submission
+        // Registration form submission - แก้ไขเพื่อป้องกันการ submit ซ้ำ
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // ป้องกันการ submit ซ้ำ
+            if (isSubmitting) {
+                showToast('กำลังบันทึกข้อมูล กรุณารอสักครู่...', 'warning');
+                return;
+            }
+
+            isSubmitting = true;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังบันทึก...';
 
             // Show loading
             Swal.fire({
@@ -1173,54 +1149,66 @@
                 // Prepare form data
                 const formData = new URLSearchParams({
                     action: 'submitRegistration',
-                    fullName: document.getElementById('fullName').value,
-                    school: document.getElementById('school').value,
+                    fullName: document.getElementById('fullName').value.trim(),
+                    school: document.getElementById('school').value.trim(),
                     competitionType: document.getElementById('competitionType').value,
                     category: document.getElementById('category').value,
-                    phone: document.getElementById('phone').value,
-                    email: document.getElementById('email').value,
-                    teacher: document.getElementById('teacher').value,
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    teacher: document.getElementById('teacher').value.trim(),
                     fileData: fileData || '',
                     fileName: fileName,
                     mimeType: mimeType
                 });
 
-                // Send to Google Apps Script with retry mechanism
-                const result = await fetchWithRetry(SCRIPT_URL, {
+                // Send to Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: formData
                 });
+
+                const result = await response.json();
 
                 if (!result.success) {
                     throw new Error(result.error || 'การบันทึกข้อมูลไม่สำเร็จ');
                 }
 
-                // Success message
-                Swal.fire({
-                    icon: 'success',
-                    title: 'ลงทะเบียนสำเร็จ!',
-                    html: `
-                        <p>ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว</p>
-                        <p><strong>ชื่อ:</strong> ${document.getElementById('fullName').value}</p>
-                        <p><strong>ประเภทการแข่งขัน:</strong> ${document.getElementById('competitionType').value}</p>
-                        <p><strong>ระดับ/ประเภท:</strong> ${document.getElementById('category').value}</p>
-                        ${result.registrationNumber ? `<p><strong>หมายเลขลงทะเบียน:</strong> ${result.registrationNumber}</p>` : ''}
-                    `,
-                    confirmButtonText: 'ตกลง',
-                    confirmButtonColor: '#667eea'
-                });
+                // ตรวจสอบว่าเป็นข้อมูลซ้ำหรือไม่
+                if (result.isDuplicate) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'ข้อมูลถูกบันทึกแล้ว',
+                        text: 'ข้อมูลของคุณได้ถูกบันทึกในระบบเรียบร้อยแล้ว',
+                        confirmButtonColor: '#667eea'
+                    });
+                } else {
+                    // Success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ลงทะเบียนสำเร็จ!',
+                        html: `
+                            <p>ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว</p>
+                            <p><strong>ชื่อ:</strong> ${document.getElementById('fullName').value}</p>
+                            <p><strong>ประเภทการแข่งขัน:</strong> ${document.getElementById('competitionType').value}</p>
+                            <p><strong>ระดับ/ประเภท:</strong> ${document.getElementById('category').value}</p>
+                            ${result.registrationNumber ? `<p><strong>หมายเลขลงทะเบียน:</strong> ${result.registrationNumber}</p>` : ''}
+                        `,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#667eea'
+                    });
+
+                    showToast('ลงทะเบียนสำเร็จ!', 'success');
+                }
 
                 // Reset form
                 document.getElementById('registrationForm').reset();
                 document.getElementById('fileName').innerHTML = '';
                 document.getElementById('category').innerHTML = '<option value="">-- เลือกระดับชั้น/ประเภท --</option>';
 
-                // Show success toast
-                showToast('ลงทะเบียนสำเร็จ!', 'success');
-
                 // Reload data
                 setTimeout(() => {
                     loadDashboardData();
+                    loadResults();
                 }, 2000);
 
             } catch (error) {
@@ -1233,6 +1221,13 @@
                 });
                 
                 showToast('เกิดข้อผิดพลาดในการลงทะเบียน', 'error');
+            } finally {
+                // ปลดล็อกการ submit หลังจาก 3 วินาที
+                setTimeout(() => {
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ส่งใบสมัครเข้าร่วมการแข่งขัน';
+                }, 3000);
             }
         });
 
@@ -1286,10 +1281,12 @@
                     rank: winnerRank
                 });
 
-                const result = await fetchWithRetry(SCRIPT_URL, {
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: formData
                 });
+
+                const result = await response.json();
                 
                 if (!result.success) {
                     throw new Error(result.error || 'การประกาศผลไม่สำเร็จ');
@@ -1316,7 +1313,6 @@
                 document.getElementById('winnerCategory').value = '';
                 document.getElementById('winnerRank').value = '';
 
-                // Show success toast
                 showToast('ประกาศผลสำเร็จ!', 'success');
 
                 // Reload results
@@ -1338,33 +1334,27 @@
             }
         }
 
-        // Load results with caching
+        // Load results
         async function loadResults() {
             try {
-                const result = await fetchWithRetry(`${SCRIPT_URL}?action=getWinners`);
+                updateConnectionStatus('loading');
+                
+                const response = await fetch(`${SCRIPT_URL}?action=getWinners`);
+                const result = await response.json();
                 
                 if (result.success) {
                     winnersData = result.winners || [];
                     displayResults(winnersData);
                     
-                    // Cache in localStorage for offline access
-                    localStorage.setItem('winnersData', JSON.stringify(winnersData));
+                    updateConnectionStatus('online');
                 } else {
                     throw new Error(result.error || 'Failed to load results');
                 }
 
             } catch (error) {
                 console.error('Error loading results:', error);
-                
-                // Try to load from cache
-                const savedWinners = localStorage.getItem('winnersData');
-                if (savedWinners) {
-                    winnersData = JSON.parse(savedWinners);
-                    displayResults(winnersData);
-                    showToast('แสดงข้อมูลจากแคช', 'warning');
-                } else {
-                    displayResults([]);
-                }
+                updateConnectionStatus('error');
+                displayResults([]);
             }
         }
 
@@ -1494,10 +1484,13 @@
             }, 1500);
         }
 
-        // Load dashboard data with caching
+        // Load dashboard data
         async function loadDashboardData() {
             try {
-                const result = await fetchWithRetry(`${SCRIPT_URL}?action=getDashboard`);
+                updateConnectionStatus('loading');
+                
+                const response = await fetch(`${SCRIPT_URL}?action=getDashboard`);
+                const result = await response.json();
                 
                 if (result.success) {
                     // Update stats
@@ -1510,38 +1503,23 @@
                     updateCompetitionChart(result.competitionStats || {});
                     updateSchoolChart(result.schoolStats || {});
 
-                    // Cache in localStorage
-                    localStorage.setItem('dashboardData', JSON.stringify(result));
+                    updateConnectionStatus('online');
                 } else {
                     throw new Error(result.error || 'Failed to load dashboard');
                 }
 
             } catch (error) {
                 console.error('Error loading dashboard:', error);
+                updateConnectionStatus('error');
                 
-                // Try to load from cache
-                const savedDashboard = localStorage.getItem('dashboardData');
-                if (savedDashboard) {
-                    const data = JSON.parse(savedDashboard);
-                    document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
-                    document.getElementById('totalWinners').textContent = data.totalWinners || 0;
-                    document.getElementById('totalCompetitions').textContent = data.totalCompetitions || 5;
-                    document.getElementById('totalSchools').textContent = data.totalSchools || 0;
-                    
-                    updateCompetitionChart(data.competitionStats || {});
-                    updateSchoolChart(data.schoolStats || {});
-                    
-                    showToast('แสดงข้อมูลจากแคช', 'warning');
-                } else {
-                    // Use default values
-                    document.getElementById('totalRegistrations').textContent = '0';
-                    document.getElementById('totalWinners').textContent = '0';
-                    document.getElementById('totalCompetitions').textContent = '5';
-                    document.getElementById('totalSchools').textContent = '0';
-                    
-                    updateCompetitionChart({});
-                    updateSchoolChart({});
-                }
+                // Use default values
+                document.getElementById('totalRegistrations').textContent = '0';
+                document.getElementById('totalWinners').textContent = '0';
+                document.getElementById('totalCompetitions').textContent = '5';
+                document.getElementById('totalSchools').textContent = '0';
+                
+                updateCompetitionChart({});
+                updateSchoolChart({});
             }
         }
 
@@ -1664,7 +1642,7 @@
             loadResults();
             loadDashboardData();
             
-            // Auto-reload data every 30 seconds for real-time updates
+            // Auto-reload data every 30 seconds
             setInterval(() => {
                 if (navigator.onLine) {
                     loadResults();
