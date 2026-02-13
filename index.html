@@ -957,6 +957,83 @@
             font-size: 1rem;
         }
 
+        /* Results Table Styles */
+        .competition-table-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .results-table thead {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+            color: white;
+        }
+
+        .results-table th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .results-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .results-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .results-table tbody tr:hover {
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .results-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Download Button */
+        .btn-download-cert {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-download-cert:hover {
+            background: #ff5722;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-download-cert i {
+            font-size: 1.2rem;
+        }
+
         /* Mini Certificate Button */
         .btn-mini-cert {
             padding: 0.5rem;
@@ -1472,10 +1549,10 @@
                 'ม.2/7': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
                 'ม.2/8': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
                 'ม.2/9': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
-                'ม.3': 'https://drive.google.com/file/d/1dfvHUq8zBbYnCt89AFpnQCca_81m4yMb/view?usp=sharing',
-                'ม.4': 'https://drive.google.com/file/d/1pDow03ndIG-Gl2n4uJzRmkMqyMzDUeyT/view?usp=sharing',
-                'ม.5': 'https://drive.google.com/file/d/12SkEUe2U5ZnCV8usr5e8aiF4NekYOej0/view?usp=sharing',
-                'ม.6': 'https://drive.google.com/file/d/1sceR0I4il-XHLvjXU0BOGYEeu0P45XY7/view?usp=sharing'
+                'ม.3': '',
+                'ม.4': '',
+                'ม.5': '',
+                'ม.6': ''
             },
             'ส้มตำลีลา': {
                 'ม.1': '',
@@ -1486,16 +1563,16 @@
                 'ม.6': ''
             },
             'วาดภาพระบายสี': {
-                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': 'https://drive.google.com/file/d/15L-WiS715tLRtkqvuSDv-OCNM_O741ot/view?usp=sharing',
-                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': 'https://drive.google.com/file/d/1F5opRBem_yKkQkBVWIMDuCCnw_bIsiy1/view?usp=sharing',
-                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': 'https://drive.google.com/file/d/1GYPg3bu9jg-_g7UE1MWX70b-UinCYpCN/view?usp=sharing',
+                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': '',
+                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': '',
+                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': '',
                 'ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': '',
                 'ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': ''
             },
             'ขับร้องเพลงลูกทุ่งคาราโอเกะ': {
-                'ระดับประถมศึกษา': 'https://drive.google.com/file/d/1mdtiEnG2-6vagI_wZQIWSoUUHZbbff7F/view?usp=sharing',
-                'ระดับมัธยมศึกษาตอนต้น': 'https://drive.google.com/file/d/1Xls4L3Oi0SR2KUQOMUsUFGnMF9mU5uvB/view?usp=sharing',
-                'ระดับมัธยมศึกษาตอนปลาย': 'https://drive.google.com/file/d/1klxixgocsdhIlamPFzDtf9B01wU5FAuE/view?usp=sharing'
+                'ระดับประถมศึกษา': '',
+                'ระดับมัธยมศึกษาตอนต้น': '',
+                'ระดับมัธยมศึกษาตอนปลาย': ''
             },
             'เซปักตะกร้อ': {
                 'ระดับประถมศึกษา - ประเภททีมชาย 3 คน': '',
@@ -1506,7 +1583,7 @@
             },
             'ทักษะลูกสองมือล่างวอลเลย์บอล': {
                 'ระดับประถมศึกษา - ประเภทเดี่ยว ชาย': 'https://drive.google.com/file/d/1rAUh5Xaqe8GfGGGJrcCsA_9wKH0G36e9/view?usp=sharing',
-                'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': 'https://drive.google.com/file/d/1rAUh5Xaqe8GfGGGJrcCsA_9wKH0G36e9/view?usp=sharing'
+                'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': ''
             }
         };
 
@@ -2118,7 +2195,7 @@ const competitionCategories = {
             }
         }
 
-        // Display results - แสดงผลการแข่งขัน
+        // Display results - แสดงผลการแข่งขันแบบตาราง
         function displayResults(winners) {
             const container = document.getElementById('resultsContainer');
             
@@ -2133,14 +2210,21 @@ const competitionCategories = {
                 return;
             }
 
-            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขัน
+            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขันและระดับ
             const groupedWinners = {};
             winners.forEach(winner => {
                 const type = winner.type || 'อื่นๆ';
-                if (!groupedWinners[type]) {
-                    groupedWinners[type] = [];
+                const category = winner.category || 'ไม่ระบุ';
+                const key = `${type}|${category}`;
+                
+                if (!groupedWinners[key]) {
+                    groupedWinners[key] = {
+                        type: type,
+                        category: category,
+                        winners: []
+                    };
                 }
-                groupedWinners[type].push(winner);
+                groupedWinners[key].winners.push(winner);
             });
 
             // เรียงลำดับรางวัล
@@ -2152,10 +2236,14 @@ const competitionCategories = {
             };
 
             let html = '<div class="results-container">';
+            let tableIndex = 0;
 
-            // สร้าง section สำหรับแต่ละประเภทการแข่งขัน
-            Object.keys(groupedWinners).forEach((type) => {
-                const typeWinners = groupedWinners[type];
+            // สร้างตารางสำหรับแต่ละรายการแข่งขัน
+            Object.keys(groupedWinners).forEach((key) => {
+                const group = groupedWinners[key];
+                const type = group.type;
+                const category = group.category;
+                const typeWinners = group.winners;
                 
                 // เรียงลำดับตามรางวัล
                 typeWinners.sort((a, b) => {
@@ -2163,59 +2251,63 @@ const competitionCategories = {
                     const orderB = rankOrder[b.rank] || 99;
                     return orderA - orderB;
                 });
+
+                // ตรวจสอบว่ามีลิงก์เกียรติบัตรหรือไม่
+                const certLink = getCertificateLink(type, category);
+                const hasCertLink = certLink && certLink !== '';
                 
                 html += `
-                    <div class="competition-type-section">
-                        <div class="competition-type-header">
-                            <h3 class="competition-type-title">
-                                <i class="fas fa-trophy"></i>
-                                ${type}
-                            </h3>
-                            <p class="competition-type-count">
-                                <i class="fas fa-award"></i> มีผู้ได้รับรางวัล ${typeWinners.length} คน/ทีม
-                            </p>
+                    <div class="competition-table-section" style="margin-bottom: 3rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <div>
+                                <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.5rem;">
+                                    <i class="fas fa-trophy" style="color: #f39c12;"></i>
+                                    ${tableIndex + 1}. ${type}
+                                </h3>
+                                <p style="color: var(--text-light); font-size: 1rem; margin-left: 2.5rem;">
+                                    <i class="fas fa-layer-group"></i> ${category}
+                                </p>
+                            </div>
+                            ${hasCertLink ? `
+                            <a href="${certLink}" target="_blank" class="btn-download-cert">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            ` : ''}
                         </div>
 
-                        <div class="winners-grid">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px; text-align: center;">ที่</th>
+                                    <th style="width: 120px;">รางวิจ</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>โรงเรียน</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                 `;
 
                 typeWinners.forEach((winner, index) => {
-                    const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
                     const rankText = winner.rank ? winner.rank.substring(winner.rank.indexOf(' ') + 1) : 'รางวัล';
-                    
-                    // ตรวจสอบว่ามีลิงก์เกียรติบัตรหรือไม่
-                    const certLink = getCertificateLink(winner.type, winner.category);
+                    const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
                     
                     html += `
-                        <div class="result-card">
-                            <div class="result-rank">${rankText}</div>
-                            <div class="result-name">
-                                <span style="font-size: 1.8rem; margin-right: 0.5rem;">${rankEmoji}</span>
-                                ${winner.name || ''}
-                            </div>
-                            <div class="result-school">
-                                <i class="fas fa-school"></i> ${winner.school || ''}
-                            </div>
-                            <div class="result-category">
-                                <i class="fas fa-layer-group"></i> ${winner.category || ''}
-                            </div>
-                            ${certLink ? `
-                            <a href="${certLink}" target="_blank" class="btn-certificate">
-                                <i class="fas fa-download"></i> ดาวน์โหลดเกียรติบัตร
-                            </a>
-                            ` : `
-                            <div class="btn-certificate" style="opacity: 0.5; cursor: not-allowed; background: #95a5a6;">
-                                <i class="fas fa-info-circle"></i> ยังไม่มีเกียรติบัตร
-                            </div>
-                            `}
-                        </div>
+                        <tr>
+                            <td style="text-align: center; font-weight: 600;">${index + 1}</td>
+                            <td><span style="font-size: 1.2rem;">${rankEmoji}</span> ${rankText}</td>
+                            <td style="font-weight: 600;">${winner.name || ''}</td>
+                            <td>${winner.school || ''}</td>
+                        </tr>
                     `;
                 });
 
                 html += `
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 `;
+
+                tableIndex++;
             });
 
             html += '</div>';
