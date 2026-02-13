@@ -931,6 +931,32 @@
             margin-left: 0.5rem;
         }
 
+        /* Certificate Download Link */
+        .cert-download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+        }
+
+        .cert-download-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #229954 0%, #27ae60 100%);
+        }
+
+        .cert-download-link i {
+            font-size: 1rem;
+        }
+
         /* Responsive Grid */
         @media (max-width: 968px) {
             .chart-container canvas {
@@ -1395,6 +1421,77 @@
         let winnersData = [];
         let isSubmitting = false;
         let isAdminLoggedIn = false;
+
+        // Certificate Links - ลิงก์เกียรติบัตรตามรายการแข่งขันและระดับ
+        const certificateLinks = {
+            'อาหารพื้นบ้าน': {
+                'ม.1': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/1': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/2': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/3': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/4': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/5': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/6': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/7': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/8': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.1/9': 'https://drive.google.com/file/d/15P2LvMX2avNn4vpESat8jF5Rk2cR_juu/view?usp=sharing',
+                'ม.2': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/1': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/2': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/3': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/4': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/5': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/6': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/7': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/8': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.2/9': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
+                'ม.3': '',
+                'ม.4': '',
+                'ม.5': '',
+                'ม.6': ''
+                // เพิ่มลิงก์สำหรับ ม.3, ม.4, ม.5, ม.6 ได้ตามต้องการ
+            },
+            'ส้มตำลีลา': {
+                'ม.1': '',
+                'ม.2': '',
+                'ม.3': '',
+                'ม.4': '',
+                'ม.5': '',
+                'ม.6': ''
+                // เพิ่มลิงก์ได้เช่นเดียวกัน
+            },
+            'วาดภาพระบายสี': {
+                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': '',
+                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': '',
+                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': '',
+                'ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': '',
+                'ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': ''
+            },
+            'ขับร้องเพลงลูกทุ่งคาราโอเกะ': {
+                'ระดับประถมศึกษา': '',
+                'ระดับมัธยมศึกษาตอนต้น': '',
+                'ระดับมัธยมศึกษาตอนปลาย': ''
+            },
+            'เซปักตะกร้อ': {
+                'ระดับประถมศึกษา - ประเภททีมชาย 3 คน': '',
+                'ระดับประถมศึกษา - ประเภททีมหญิง 3 คน': ''
+            },
+            'คริกเก็ต': {
+                'ระดับประถมศึกษา - ประเภทผสม (อายุไม่เกิน 12 ปี)': ''
+            },
+            'ทักษะลูกสองมือล่างวอลเลย์บอล': {
+                'ระดับประถมศึกษา - ประเภทเดี่ยว ชาย': '',
+                'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': ''
+            }
+        };
+
+        // Function to get certificate link
+        function getCertificateLink(competitionType, category) {
+            if (certificateLinks[competitionType] && certificateLinks[competitionType][category]) {
+                return certificateLinks[competitionType][category];
+            }
+            return null;
+        }
 
         // Competition categories mapping
 const competitionCategories = {
@@ -2241,7 +2338,7 @@ const competitionCategories = {
             }
         }
 
-        // Display Competition Activities (Grouped by Competition Type)
+        // Display Competition Activities (Grouped by Competition Type and Category)
         function displayCompetitionActivities(winners) {
             const container = document.getElementById('competitionActivitiesContainer');
             
@@ -2255,14 +2352,21 @@ const competitionCategories = {
                 return;
             }
 
-            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขัน
+            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขันและระดับ
             const groupedWinners = {};
             winners.forEach(winner => {
                 const type = winner.type || 'อื่นๆ';
-                if (!groupedWinners[type]) {
-                    groupedWinners[type] = [];
+                const category = winner.category || 'ไม่ระบุ';
+                const key = `${type}|${category}`;
+                
+                if (!groupedWinners[key]) {
+                    groupedWinners[key] = {
+                        type: type,
+                        category: category,
+                        winners: []
+                    };
                 }
-                groupedWinners[type].push(winner);
+                groupedWinners[key].winners.push(winner);
             });
 
             // เรียงลำดับรางวัล
@@ -2276,8 +2380,11 @@ const competitionCategories = {
             let html = '';
             let activityIndex = 0;
 
-            Object.keys(groupedWinners).forEach((type) => {
-                const typeWinners = groupedWinners[type];
+            Object.keys(groupedWinners).forEach((key) => {
+                const group = groupedWinners[key];
+                const type = group.type;
+                const category = group.category;
+                const typeWinners = group.winners;
                 
                 // เรียงลำดับตามรางวัล
                 typeWinners.sort((a, b) => {
@@ -2293,14 +2400,21 @@ const competitionCategories = {
                     rankCounts[rankName] = (rankCounts[rankName] || 0) + 1;
                 });
 
-                const topRank = typeWinners[0]?.rank?.split(' ')[0] || '🏆';
+                // ตรวจสอบว่ามีลิงก์เกียรติบัตรหรือไม่
+                const certLink = getCertificateLink(type, category);
+                const hasCertLink = certLink && certLink !== '';
                 
                 html += `
                     <div class="activity-card" id="activity-card-${activityIndex}" onclick="toggleActivityCard(${activityIndex})">
                         <div class="activity-card-header">
                             <div class="activity-card-title">
                                 <i class="fas fa-trophy" style="color: #f39c12;"></i>
-                                ${type}
+                                <div>
+                                    <div style="font-weight: 600;">${type}</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-light); font-weight: 400;">
+                                        <i class="fas fa-layer-group"></i> ${category}
+                                    </div>
+                                </div>
                             </div>
                             <div class="activity-card-badge">
                                 ${typeWinners.length} รางวัล
@@ -2314,6 +2428,14 @@ const competitionCategories = {
                             ${rankCounts['เข้าร่วมการแข่งขัน'] ? `<div class="activity-card-stat"><i class="fas fa-certificate" style="color: #3498db;"></i> เข้าร่วม ${rankCounts['เข้าร่วมการแข่งขัน']}</div>` : ''}
                         </div>
 
+                        ${hasCertLink ? `
+                        <div style="margin-top: 0.8rem;">
+                            <a href="${certLink}" target="_blank" class="cert-download-link" onclick="event.stopPropagation();">
+                                <i class="fas fa-download"></i> ดาวน์โหลดเกียรติบัตรสำเร็จรูป
+                            </a>
+                        </div>
+                        ` : ''}
+
                         <div class="activity-winners-list" id="activity-winners-${activityIndex}">
                 `;
 
@@ -2326,8 +2448,7 @@ const competitionCategories = {
                             <div class="activity-winner-info">
                                 <div class="activity-winner-name">${winner.name || ''}</div>
                                 <div class="activity-winner-details">
-                                    <i class="fas fa-school"></i> ${winner.school || ''} • 
-                                    <i class="fas fa-layer-group"></i> ${winner.category || ''}
+                                    <i class="fas fa-school"></i> ${winner.school || ''}
                                 </div>
                             </div>
                             <div class="activity-winner-rank" title="${rankText}">
