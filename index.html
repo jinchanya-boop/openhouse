@@ -2490,65 +2490,95 @@ const competitionCategories = {
             }
 
             const typeIcon = foodType === 'อาหารพื้นบ้าน' ? '🍚' : '🌶️';
-            const typeColor = foodType === 'อาหารพื้นบ้าน' ? '#ff6b35' : '#e74c3c';
             
             let html = `
                 <div class="food-summary-table" style="margin-bottom: 3rem; background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
                     <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 2rem;">${typeIcon}</span>
-                        สรุปผลการแข่งขัน${foodType}
+                        ผลการแข่งขัน${foodType}ทีมนำบ้าน
                     </h3>
                     
                     <table class="results-table" style="margin-top: 0;">
                         <thead>
                             <tr>
-                                <th style="width: 80px; text-align: center;">ชั้น</th>
+                                <th style="width: 100px; text-align: center;">ชั้น</th>
                                 <th>รายวิจ</th>
-                                <th style="width: 100px; text-align: center;">ห้อง</th>
+                                <th style="width: 120px; text-align: center;">ห้อง</th>
                             </tr>
                         </thead>
                         <tbody>
             `;
 
-            // เรียงลำดับตามระดับชั้น
-            const sortedCategories = Object.keys(competitions).sort((a, b) => {
-                const getLevel = (cat) => {
-                    const match = cat.match(/ม\.(\d+)/);
-                    return match ? parseInt(match[1]) : 0;
-                };
-                return getLevel(a) - getLevel(b);
+            // จัดกลุ่มตามระดับชั้นหลัก (ม.1, ม.2, etc.)
+            const groupedByLevel = {};
+            Object.keys(competitions).forEach(category => {
+                const level = category.replace(/\/.*/, ''); // ม.1, ม.2
+                if (!groupedByLevel[level]) {
+                    groupedByLevel[level] = [];
+                }
+                groupedByLevel[level].push({
+                    category: category,
+                    winners: competitions[category]
+                });
             });
 
-            sortedCategories.forEach(category => {
-                const winners = competitions[category];
-                const level = category.replace(/\/.*/, ''); // ม.1, ม.2 เป็นต้น
-                const classroom = category.includes('/') ? category.split('/')[1] : '-';
+            // เรียงลำดับตามระดับชั้น
+            const sortedLevels = Object.keys(groupedByLevel).sort((a, b) => {
+                const getNum = (level) => {
+                    const match = level.match(/ม\.(\d+)/);
+                    return match ? parseInt(match[1]) : 0;
+                };
+                return getNum(a) - getNum(b);
+            });
+
+            sortedLevels.forEach(level => {
+                const groups = groupedByLevel[level];
                 
-                // นับจำนวนรางวัลแต่ละประเภท
-                const rankCounts = {};
-                winners.forEach(winner => {
+                // รวมผู้ชนะทั้งหมดในระดับเดียวกัน
+                let allWinners = [];
+                let allRooms = [];
+                
+                groups.forEach(group => {
+                    allWinners = allWinners.concat(group.winners);
+                    const room = group.category.includes('/') ? group.category.split('/')[1] : '';
+                    if (room) allRooms.push(room);
+                });
+
+                // นับจำนวนรางวัล
+                const awards = [];
+                allWinners.forEach(winner => {
                     const rank = winner.rank || '';
                     if (rank.includes('ชนะเลิศ') && !rank.includes('รอง')) {
-                        rankCounts['champion'] = (rankCounts['champion'] || 0) + 1;
-                    } else if (rank.includes('รองชนะเลิศ')) {
-                        rankCounts['runner'] = (rankCounts['runner'] || 0) + 1;
-                    } else if (rank.includes('เข้าร่วม')) {
-                        rankCounts['participant'] = (rankCounts['participant'] || 0) + 1;
+                        awards.push('รางวัลชนะเลิศ');
+                    } else if (rank.includes('รองชนะเลิศ อันดับที่ 1')) {
+                        awards.push('รางวัลรองชนะเลิศ อันดับที่ 1');
+                    } else if (rank.includes('รองชนะเลิศ อันดับที่ 2')) {
+                        awards.push('รางวัลรองชนะเลิศ อันดับที่ 2');
                     }
                 });
 
-                let awards = [];
-                if (rankCounts['champion']) awards.push(`🏆 ชนะเลิศ ${rankCounts['champion']}`);
-                if (rankCounts['runner']) awards.push(`🥈 รองชนะเลิศ ${rankCounts['runner']}`);
-                if (rankCounts['participant']) awards.push(`🎖️ เข้าร่วม ${rankCounts['participant']}`);
-
+                // แสดงแถวแรก: ชั้น + รางวัลชนะเลิศ + ห้อง
+                const firstAward = awards[0] || '';
+                const firstRoom = allRooms[0] || '';
+                
                 html += `
                     <tr>
-                        <td style="text-align: center; font-weight: 600; font-size: 1.1rem;">${level}</td>
-                        <td>${awards.join(' • ')}</td>
-                        <td style="text-align: center;">${classroom}</td>
+                        <td style="text-align: center; font-weight: 600; font-size: 1.1rem;" rowspan="${Math.max(awards.length, 1)}">${level}</td>
+                        <td>${firstAward}</td>
+                        <td style="text-align: center;">${level}/${firstRoom}</td>
                     </tr>
                 `;
+
+                // แสดงแถวที่เหลือ (รางวัลรอง ๆ)
+                for (let i = 1; i < awards.length; i++) {
+                    const room = allRooms[i] || allRooms[0] || '';
+                    html += `
+                        <tr>
+                            <td>${awards[i]}</td>
+                            <td style="text-align: center;">${level}/${room}</td>
+                        </tr>
+                    `;
+                }
             });
 
             html += `
