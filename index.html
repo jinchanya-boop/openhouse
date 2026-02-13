@@ -328,32 +328,73 @@
             align-items: end;
         }
 
-        /* Results Display */
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+        /* Results Display - ปรับปรุงสไตล์ */
+        .results-container {
             margin-top: 2rem;
         }
 
-        .result-card {
-            background: var(--primary-gradient);
+        .competition-type-section {
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.05) 0%, rgba(58, 71, 213, 0.05) 100%);
             border-radius: 25px;
             padding: 2rem;
-            color: white;
-            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            border-left: 5px solid #00d2ff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .competition-type-header {
+            border-bottom: 3px solid rgba(0, 210, 255, 0.3);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .competition-type-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .competition-type-title i {
+            color: #f39c12;
+            font-size: 2rem;
+        }
+
+        .competition-type-count {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-left: 3rem;
+        }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
         .result-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #00d2ff;
         }
 
         .result-rank {
             display: inline-block;
             padding: 0.6rem 1.2rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--text-dark);
+            background: var(--primary-gradient);
+            color: white;
             border-radius: 50px;
             font-weight: 600;
             margin-bottom: 1rem;
@@ -364,19 +405,33 @@
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            color: var(--text-dark);
         }
 
         .result-school {
             font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-category {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 210, 255, 0.1);
+            border-radius: 10px;
+            display: inline-block;
         }
 
         .btn-certificate {
             width: 100%;
             padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--text-dark);
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
             border: none;
             border-radius: 15px;
             font-family: 'Kanit', sans-serif;
@@ -390,7 +445,8 @@
         }
 
         .btn-certificate:hover {
-            background: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
         }
 
         /* Dashboard Stats */
@@ -580,7 +636,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .results-grid {
+            .winners-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -604,7 +660,6 @@
                 margin-bottom: 1rem;
             }
 
-            /* Dashboard Responsive */
             div[style*="grid-template-columns: 1fr 1fr"] {
                 grid-template-columns: 1fr !important;
             }
@@ -774,109 +829,6 @@
                 grid-template-columns: 1fr !important;
             }
         }
-
-        /* Winners Table */
-        .competition-results-section {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 2rem;
-            border-left: 5px solid #00d2ff;
-        }
-
-        .competition-results-header {
-            border-bottom: 2px solid rgba(0, 210, 255, 0.2);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .winners-table-container {
-            overflow-x: auto;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .winners-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        .winners-table thead {
-            background: var(--primary-gradient);
-            color: white;
-        }
-
-        .winners-table th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        .winners-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 0.9rem;
-        }
-
-        .winners-table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .winners-table tbody tr:hover {
-            background: rgba(0, 210, 255, 0.05);
-        }
-
-        .winners-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .btn-download-cert {
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Kanit', sans-serif;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            white-space: nowrap;
-        }
-
-        .btn-download-cert:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
-        }
-
-        .btn-download-cert:active {
-            transform: scale(0.98);
-        }
-
-        /* Responsive for Winners Table */
-        @media (max-width: 968px) {
-            .winners-table {
-                font-size: 0.8rem;
-            }
-
-            .winners-table th,
-            .winners-table td {
-                padding: 0.6rem 0.4rem;
-            }
-
-            .btn-download-cert {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.75rem;
-            }
-
-            .competition-results-section {
-                padding: 1.5rem 1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1042,7 +994,6 @@
                             <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
                             <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
                             <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
-                            <!-- เพิ่ม 2 รายการใหม่ -->
                             <option value="อาหารพื้นบ้าน">การแข่งขันอาหารพื้นบ้าน</option>
                             <option value="ส้มตำลีลา">การแข่งขันส้มตำลีลา</option>
                         </select>
@@ -1165,7 +1116,6 @@
                                 <option value="เซปักตะกร้อ">การแข่งขันเซปักตะกร้อ</option>
                                 <option value="คริกเก็ต">การแข่งขันคริกเก็ต</option>
                                 <option value="ทักษะลูกสองมือล่างวอลเลย์บอล">การแข่งขันทักษะลูกสองมือล่างวอลเลย์บอล</option>
-                                <!-- เพิ่ม 2 รายการใหม่ -->
                                 <option value="อาหารพื้นบ้าน">การแข่งขันอาหารพื้นบ้าน</option>
                                 <option value="ส้มตำลีลา">การแข่งขันส้มตำลีลา</option>
                             </select>
@@ -1231,7 +1181,7 @@
                                 <option value="🏆 รางวัลชนะเลิศ">🏆 รางวัลชนะเลิศ</option>
                                 <option value="🥈 รางวัลรองชนะเลิศ อันดับที่ 1">🥈 รางวัลรองชนะเลิศ อันดับที่ 1</option>
                                 <option value="🥉 รางวัลรองชนะเลิศ อันดับที่ 2">🥉 รางวัลรองชนะเลิศ อันดับที่ 2</option>
-                                <option value="⭐ รางวัลชมเชย">⭐ รางวัลชมเชย</option>
+                                <option value="🎖️ เข้าร่วมการแข่งขัน">🎖️ เข้าร่วมการแข่งขัน</option>
                             </select>
                         </div>
                         <button class="btn btn-success" onclick="announceWinner()">
@@ -1331,10 +1281,9 @@
         let registrationsData = [];
         let filteredRegistrations = [];
         let winnersData = [];
-        let isSubmitting = false; // ป้องกันการ submit ซ้ำ
-        let isAdminLoggedIn = false; // สถานะการ login
+        let isSubmitting = false;
+        let isAdminLoggedIn = false;
 
-        // Competition categories mapping
         // Competition categories mapping
 const competitionCategories = {
     'วาดภาพระบายสี': [
@@ -1361,32 +1310,20 @@ const competitionCategories = {
         'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง'
     ],
     'อาหารพื้นบ้าน': [
-        'ม.1',
-        'ม.1/1', 'ม.1/2', 'ม.1/3', 'ม.1/4', 'ม.1/5', 'ม.1/6', 'ม.1/7', 'ม.1/8', 'ม.1/9',
-        'ม.2',
-        'ม.2/1', 'ม.2/2', 'ม.2/3', 'ม.2/4', 'ม.2/5', 'ม.2/6', 'ม.2/7', 'ม.2/8', 'ม.2/9',
-        'ม.3',
-        'ม.3/1', 'ม.3/2', 'ม.3/3', 'ม.3/4', 'ม.3/5', 'ม.3/6', 'ม.3/7', 'ม.3/8',
-        'ม.4',
-        'ม.4/1', 'ม.4/2', 'ม.4/3', 'ม.4/4', 'ม.4/5', 'ม.4/6', 'ม.4/7',
-        'ม.5',
-        'ม.5/1', 'ม.5/2', 'ม.5/3', 'ม.5/4', 'ม.5/5', 'ม.5/6', 'ม.5/7',
-        'ม.6',
-        'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
+        'ม.1', 'ม.1/1', 'ม.1/2', 'ม.1/3', 'ม.1/4', 'ม.1/5', 'ม.1/6', 'ม.1/7', 'ม.1/8', 'ม.1/9',
+        'ม.2', 'ม.2/1', 'ม.2/2', 'ม.2/3', 'ม.2/4', 'ม.2/5', 'ม.2/6', 'ม.2/7', 'ม.2/8', 'ม.2/9',
+        'ม.3', 'ม.3/1', 'ม.3/2', 'ม.3/3', 'ม.3/4', 'ม.3/5', 'ม.3/6', 'ม.3/7', 'ม.3/8',
+        'ม.4', 'ม.4/1', 'ม.4/2', 'ม.4/3', 'ม.4/4', 'ม.4/5', 'ม.4/6', 'ม.4/7',
+        'ม.5', 'ม.5/1', 'ม.5/2', 'ม.5/3', 'ม.5/4', 'ม.5/5', 'ม.5/6', 'ม.5/7',
+        'ม.6', 'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
     ],
     'ส้มตำลีลา': [
-        'ม.1',
-        'ม.1/1', 'ม.1/2', 'ม.1/3', 'ม.1/4', 'ม.1/5', 'ม.1/6', 'ม.1/7', 'ม.1/8', 'ม.1/9',
-        'ม.2',
-        'ม.2/1', 'ม.2/2', 'ม.2/3', 'ม.2/4', 'ม.2/5', 'ม.2/6', 'ม.2/7', 'ม.2/8', 'ม.2/9',
-        'ม.3',
-        'ม.3/1', 'ม.3/2', 'ม.3/3', 'ม.3/4', 'ม.3/5', 'ม.3/6', 'ม.3/7', 'ม.3/8',
-        'ม.4',
-        'ม.4/1', 'ม.4/2', 'ม.4/3', 'ม.4/4', 'ม.4/5', 'ม.4/6', 'ม.4/7',
-        'ม.5',
-        'ม.5/1', 'ม.5/2', 'ม.5/3', 'ม.5/4', 'ม.5/5', 'ม.5/6', 'ม.5/7',
-        'ม.6',
-        'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
+        'ม.1', 'ม.1/1', 'ม.1/2', 'ม.1/3', 'ม.1/4', 'ม.1/5', 'ม.1/6', 'ม.1/7', 'ม.1/8', 'ม.1/9',
+        'ม.2', 'ม.2/1', 'ม.2/2', 'ม.2/3', 'ม.2/4', 'ม.2/5', 'ม.2/6', 'ม.2/7', 'ม.2/8', 'ม.2/9',
+        'ม.3', 'ม.3/1', 'ม.3/2', 'ม.3/3', 'ม.3/4', 'ม.3/5', 'ม.3/6', 'ม.3/7', 'ม.3/8',
+        'ม.4', 'ม.4/1', 'ม.4/2', 'ม.4/3', 'ม.4/4', 'ม.4/5', 'ม.4/6', 'ม.4/7',
+        'ม.5', 'ม.5/1', 'ม.5/2', 'ม.5/3', 'ม.5/4', 'ม.5/5', 'ม.5/6', 'ม.5/7',
+        'ม.6', 'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
     ]
 };
 
@@ -1427,18 +1364,15 @@ const competitionCategories = {
 
         // Show Section - Tab Navigation
         function showSection(sectionId) {
-            // ซ่อนทุก section
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
 
-            // แสดง section ที่เลือก
             const selectedSection = document.getElementById(sectionId);
             if (selectedSection) {
                 selectedSection.classList.remove('hidden');
             }
 
-            // อัพเดต active state ของ nav buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -1448,10 +1382,8 @@ const competitionCategories = {
                 activeBtn.classList.add('active');
             }
 
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // โหลดข้อมูลตาม section
             if (sectionId === 'dashboard') {
                 loadDashboardData();
             } else if (sectionId === 'results') {
@@ -1464,7 +1396,6 @@ const competitionCategories = {
             const competitionType = this.value;
             const categorySelect = document.getElementById('category');
             
-            // Clear existing options
             categorySelect.innerHTML = '<option value="">-- เลือกระดับชั้น/ประเภท --</option>';
             
             if (competitionType && competitionCategories[competitionType]) {
@@ -1483,7 +1414,6 @@ const competitionCategories = {
             const fileNameDiv = document.getElementById('fileName');
             
             if (file) {
-                // Check file size (5MB limit)
                 if (file.size > 5 * 1024 * 1024) {
                     Swal.fire({
                         icon: 'error',
@@ -1516,11 +1446,10 @@ const competitionCategories = {
             });
         }
 
-        // Registration form submission - แก้ไขเพื่อป้องกันการ submit ซ้ำ
+        // Registration form submission
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // ป้องกันการ submit ซ้ำ
             if (isSubmitting) {
                 showToast('กำลังบันทึกข้อมูล กรุณารอสักครู่...', 'warning');
                 return;
@@ -1531,7 +1460,6 @@ const competitionCategories = {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังบันทึก...';
 
-            // Show loading
             Swal.fire({
                 title: 'กำลังบันทึกข้อมูล...',
                 html: 'โปรดรอสักครู่',
@@ -1547,7 +1475,6 @@ const competitionCategories = {
                 let fileName = '';
                 let mimeType = '';
 
-                // Handle file upload
                 if (fileInput.files.length > 0) {
                     const file = fileInput.files[0];
                     fileName = file.name;
@@ -1555,7 +1482,6 @@ const competitionCategories = {
                     fileData = await fileToBase64(file);
                 }
 
-                // Prepare form data
                 const formData = new URLSearchParams({
                     action: 'submitRegistration',
                     fullName: document.getElementById('fullName').value.trim(),
@@ -1570,7 +1496,6 @@ const competitionCategories = {
                     mimeType: mimeType
                 });
 
-                // Send to Google Apps Script
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: formData
@@ -1582,7 +1507,6 @@ const competitionCategories = {
                     throw new Error(result.error || 'การบันทึกข้อมูลไม่สำเร็จ');
                 }
 
-                // ตรวจสอบว่าเป็นข้อมูลซ้ำหรือไม่
                 if (result.isDuplicate) {
                     Swal.fire({
                         icon: 'info',
@@ -1591,7 +1515,6 @@ const competitionCategories = {
                         confirmButtonColor: '#667eea'
                     });
                 } else {
-                    // Success message
                     Swal.fire({
                         icon: 'success',
                         title: 'ลงทะเบียนสำเร็จ!',
@@ -1609,12 +1532,10 @@ const competitionCategories = {
                     showToast('ลงทะเบียนสำเร็จ!', 'success');
                 }
 
-                // Reset form
                 document.getElementById('registrationForm').reset();
                 document.getElementById('fileName').innerHTML = '';
                 document.getElementById('category').innerHTML = '<option value="">-- เลือกระดับชั้น/ประเภท --</option>';
 
-                // Reload data
                 setTimeout(() => {
                     loadDashboardData();
                     loadResults();
@@ -1631,7 +1552,6 @@ const competitionCategories = {
                 
                 showToast('เกิดข้อผิดพลาดในการลงทะเบียน', 'error');
             } finally {
-                // ปลดล็อกการ submit หลังจาก 3 วินาที
                 setTimeout(() => {
                     isSubmitting = false;
                     submitBtn.disabled = false;
@@ -1648,7 +1568,6 @@ const competitionCategories = {
             const winnerCategory = document.getElementById('winnerCategory').value;
             const winnerRank = document.getElementById('winnerRank').value;
 
-            // Validate inputs
             if (!winnerName || !winnerSchool || !winnerType || !winnerCategory || !winnerRank) {
                 Swal.fire({
                     icon: 'warning',
@@ -1659,7 +1578,6 @@ const competitionCategories = {
                 return;
             }
 
-            // Show loading
             Swal.fire({
                 title: 'กำลังประกาศผลการแข่งขัน...',
                 allowOutsideClick: false,
@@ -1702,12 +1620,9 @@ const competitionCategories = {
                     confirmButtonColor: '#27ae60'
                 });
 
-                // Clear form
                 clearWinnerForm();
-
                 showToast('ประกาศผลสำเร็จ!', 'success');
 
-                // Reload results
                 setTimeout(() => {
                     loadResults();
                     loadDashboardData();
@@ -1751,15 +1666,12 @@ const competitionCategories = {
                 return;
             }
 
-            // Login successful
             isAdminLoggedIn = true;
             document.getElementById('adminLoginBox').style.display = 'none';
             document.getElementById('adminFormBox').style.display = 'block';
             document.getElementById('adminLoginPassword').value = '';
 
             showToast('เข้าสู่ระบบสำเร็จ', 'success');
-
-            // Load registrations
             loadRegistrationsForAdmin();
         }
 
@@ -1840,7 +1752,6 @@ const competitionCategories = {
             const competitionType = this.value;
             const categorySelect = document.getElementById('filterCategory');
             
-            // Clear existing options
             categorySelect.innerHTML = '<option value="">ทั้งหมด</option>';
             
             if (competitionType && competitionCategories[competitionType]) {
@@ -1915,27 +1826,22 @@ const competitionCategories = {
         function selectRegistration(index) {
             const reg = filteredRegistrations[index];
             
-            // Remove previous selection
             document.querySelectorAll('.registrations-table tbody tr').forEach(row => {
                 row.classList.remove('selected');
             });
             
-            // Add selection to clicked row
             const row = document.getElementById(`reg-row-${index}`);
             if (row) {
                 row.classList.add('selected');
             }
 
-            // Fill winner form
             document.getElementById('winnerName').value = reg.name || '';
             document.getElementById('winnerSchool').value = reg.school || '';
             document.getElementById('winnerType').value = reg.competitionType || '';
             document.getElementById('winnerCategory').value = reg.category || '';
             
-            // Clear rank selection
             document.getElementById('winnerRank').value = '';
 
-            // Scroll to form
             document.getElementById('winnerRank').scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             showToast('เลือกผู้สมัครแล้ว กรุณาเลือกรางวัล', 'success');
@@ -1949,13 +1855,12 @@ const competitionCategories = {
             document.getElementById('winnerCategory').value = '';
             document.getElementById('winnerRank').value = '';
             
-            // Remove selection
             document.querySelectorAll('.registrations-table tbody tr').forEach(row => {
                 row.classList.remove('selected');
             });
         }
 
-        // Load results
+        // Load results - แก้ไขเพื่อแยกตามรายการแข่งขัน
         async function loadResults() {
             try {
                 updateConnectionStatus('loading');
@@ -1979,7 +1884,7 @@ const competitionCategories = {
             }
         }
 
-        // Display results
+        // Display results - ปรับปรุงการแสดงผลแยกตามรายการแข่งขัน
         function displayResults(winners) {
             const container = document.getElementById('resultsContainer');
             
@@ -2004,81 +1909,73 @@ const competitionCategories = {
                 groupedWinners[type].push(winner);
             });
 
-            let html = '';
+            // เรียงลำดับรางวัล
+            const rankOrder = {
+                '🏆 รางวัลชนะเลิศ': 1,
+                '🥈 รางวัลรองชนะเลิศ อันดับที่ 1': 2,
+                '🥉 รางวัลรองชนะเลิศ อันดับที่ 2': 3,
+                '🎖️ เข้าร่วมการแข่งขัน': 4
+            };
 
-            // สร้าง section สำหรับแต่ละประเภท
-            Object.keys(groupedWinners).forEach((type, typeIndex) => {
+            let html = '<div class="results-container">';
+
+            // สร้าง section สำหรับแต่ละประเภทการแข่งขัน
+            Object.keys(groupedWinners).forEach((type) => {
                 const typeWinners = groupedWinners[type];
                 
-                html += `
-                    <div class="competition-results-section" style="margin-bottom: 3rem;">
-                        <div class="competition-results-header">
-                            <h3 style="color: var(--text-dark); font-size: 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-trophy" style="color: #f39c12;"></i>
-                                ${type}
-                            </h3>
-                            <p style="color: var(--text-light); margin-bottom: 1.5rem;">
-                                <i class="fas fa-award"></i> มีผู้ได้รับรางวัล ${typeWinners.length} คน
-                            </p>
-                        </div>
-
-                        <div class="winners-table-container">
-                            <table class="winners-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 50px;">อันดับ</th>
-                                        <th style="width: 80px;">รางวัล</th>
-                                        <th>ชื่อ-นามสกุล</th>
-                                        <th>โรงเรียน</th>
-                                        <th>ระดับ/ประเภท</th>
-                                        <th style="width: 150px; text-align: center;">ดาวน์โหลด</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                `;
-
-                // เรียงลำดับตามรางวัล (ชนะเลิศ > รองฯ 1 > รองฯ 2 > ชมเชย)
-                const rankOrder = {
-                    '🏆 รางวัลชนะเลิศ': 1,
-                    '🥈 รางวัลรองชนะเลิศ อันดับที่ 1': 2,
-                    '🥉 รางวัลรองชนะเลิศ อันดับที่ 2': 3,
-                    '⭐ รางวัลชมเชย': 4
-                };
-
+                // เรียงลำดับตามรางวัล
                 typeWinners.sort((a, b) => {
                     const orderA = rankOrder[a.rank] || 99;
                     const orderB = rankOrder[b.rank] || 99;
                     return orderA - orderB;
                 });
+                
+                html += `
+                    <div class="competition-type-section">
+                        <div class="competition-type-header">
+                            <h3 class="competition-type-title">
+                                <i class="fas fa-trophy"></i>
+                                ${type}
+                            </h3>
+                            <p class="competition-type-count">
+                                <i class="fas fa-award"></i> มีผู้ได้รับรางวัล ${typeWinners.length} คน/ทีม
+                            </p>
+                        </div>
+
+                        <div class="winners-grid">
+                `;
 
                 typeWinners.forEach((winner, index) => {
                     const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
                     const rankText = winner.rank ? winner.rank.substring(winner.rank.indexOf(' ') + 1) : 'รางวัล';
                     
                     html += `
-                        <tr>
-                            <td style="text-align: center; font-weight: 600;">${index + 1}</td>
-                            <td style="text-align: center; font-size: 1.8rem;">${rankEmoji}</td>
-                            <td><strong>${winner.name || ''}</strong></td>
-                            <td><i class="fas fa-school" style="color: var(--text-light); margin-right: 0.3rem;"></i>${winner.school || ''}</td>
-                            <td><span class="badge badge-primary">${winner.category || ''}</span></td>
-                            <td style="text-align: center;">
-                                <button class="btn-download-cert" onclick="downloadCertificate('${escapeQuotes(winner.name)}', '${escapeQuotes(winner.school)}', '${escapeQuotes(winner.type)}', '${escapeQuotes(winner.category)}', '${escapeQuotes(winner.rank)}')">
-                                    <i class="fas fa-download"></i> เกียรติบัตร
-                                </button>
-                            </td>
-                        </tr>
+                        <div class="result-card">
+                            <div class="result-rank">${rankText}</div>
+                            <div class="result-name">
+                                <span style="font-size: 1.8rem; margin-right: 0.5rem;">${rankEmoji}</span>
+                                ${winner.name || ''}
+                            </div>
+                            <div class="result-school">
+                                <i class="fas fa-school"></i> ${winner.school || ''}
+                            </div>
+                            <div class="result-category">
+                                <i class="fas fa-layer-group"></i> ${winner.category || ''}
+                            </div>
+                            <button class="btn-certificate" onclick="downloadCertificate('${escapeQuotes(winner.name)}', '${escapeQuotes(winner.school)}', '${escapeQuotes(winner.type)}', '${escapeQuotes(winner.category)}', '${escapeQuotes(winner.rank)}')">
+                                <i class="fas fa-download"></i> ดาวน์โหลดเกียรติบัตร
+                            </button>
+                        </div>
                     `;
                 });
 
                 html += `
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 `;
             });
 
+            html += '</div>';
             container.innerHTML = html;
         }
 
@@ -2112,7 +2009,6 @@ const competitionCategories = {
                         format: 'a4'
                     });
 
-                    // Certificate design
                     doc.setFillColor(240, 248, 255);
                     doc.rect(0, 0, 297, 210, 'F');
                     
@@ -2187,13 +2083,11 @@ const competitionCategories = {
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Update stats
                     document.getElementById('totalRegistrations').textContent = result.totalRegistrations || 0;
                     document.getElementById('totalWinners').textContent = result.totalWinners || 0;
                     document.getElementById('totalCompetitions').textContent = result.totalCompetitions || 7;
                     document.getElementById('totalSchools').textContent = result.totalSchools || 0;
 
-                    // Update charts
                     updateCompetitionChart(result.competitionStats || {});
                     updateSchoolChart(result.schoolStats || {});
 
@@ -2202,14 +2096,12 @@ const competitionCategories = {
                     throw new Error(result.error || 'Failed to load dashboard');
                 }
 
-                // Load winners list
                 await loadWinnersListForDashboard();
 
             } catch (error) {
                 console.error('Error loading dashboard:', error);
                 updateConnectionStatus('error');
                 
-                // Use default values
                 document.getElementById('totalRegistrations').textContent = '0';
                 document.getElementById('totalWinners').textContent = '0';
                 document.getElementById('totalCompetitions').textContent = '7';
@@ -2388,10 +2280,6 @@ const competitionCategories = {
         window.addEventListener('load', () => {
             updateConnectionStatus('loading');
             
-            // Initialize data loading สำหรับหน้าแรก
-            // ไม่โหลดข้อมูลทั้งหมดตั้งแต่เริ่ม เพื่อลดการโหลด
-            
-            // Online/Offline detection
             window.addEventListener('online', () => {
                 updateConnectionStatus('online');
                 showToast('เชื่อมต่ออินเทอร์เน็ตแล้ว', 'success');
@@ -2402,7 +2290,6 @@ const competitionCategories = {
                 showToast('ไม่มีการเชื่อมต่ออินเทอร์เน็ต', 'error');
             });
 
-            // Set initial connection status
             if (navigator.onLine) {
                 updateConnectionStatus('online');
             } else {
