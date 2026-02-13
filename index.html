@@ -1602,10 +1602,10 @@
                 'ม.2/7': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
                 'ม.2/8': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
                 'ม.2/9': 'https://drive.google.com/file/d/1RglKtNkGTnY3x4SIB7y2HPcJ6js_b7N5/view?usp=sharing',
-                'ม.3': 'https://drive.google.com/file/d/1dfvHUq8zBbYnCt89AFpnQCca_81m4yMb/view?usp=sharing',
-                'ม.4': 'https://drive.google.com/file/d/1pDow03ndIG-Gl2n4uJzRmkMqyMzDUeyT/view?usp=sharing',
-                'ม.5': 'https://drive.google.com/file/d/12SkEUe2U5ZnCV8usr5e8aiF4NekYOej0/view?usp=sharing',
-                'ม.6': 'https://drive.google.com/file/d/1sceR0I4il-XHLvjXU0BOGYEeu0P45XY7/view?usp=sharing'
+                'ม.3': '',
+                'ม.4': '',
+                'ม.5': '',
+                'ม.6': ''
             },
             'ส้มตำลีลา': {
                 'ม.1': '',
@@ -1616,19 +1616,19 @@
                 'ม.6': ''
             },
             'วาดภาพระบายสี': {
-                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': 'https://drive.google.com/file/d/15L-WiS715tLRtkqvuSDv-OCNM_O741ot/view?usp=sharing',
-                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': 'https://drive.google.com/file/d/1F5opRBem_yKkQkBVWIMDuCCnw_bIsiy1/view?usp=sharing',
-                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': 'https://drive.google.com/file/d/1GYPg3bu9jg-_g7UE1MWX70b-UinCYpCN/view?usp=sharing',
+                'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': '',
+                'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': '',
+                'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': '',
                 'ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': '',
                 'ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': ''
             },
             'ขับร้องเพลงลูกทุ่งคาราโอเกะ': {
-                'ระดับประถมศึกษา': 'https://drive.google.com/file/d/1mdtiEnG2-6vagI_wZQIWSoUUHZbbff7F/view?usp=sharing',
-                'ระดับมัธยมศึกษาตอนต้น': 'https://drive.google.com/file/d/1Xls4L3Oi0SR2KUQOMUsUFGnMF9mU5uvB/view?usp=sharing',
-                'ระดับมัธยมศึกษาตอนปลาย': 'https://drive.google.com/file/d/1klxixgocsdhIlamPFzDtf9B01wU5FAuE/view?usp=sharing'
+                'ระดับประถมศึกษา': '',
+                'ระดับมัธยมศึกษาตอนต้น': '',
+                'ระดับมัธยมศึกษาตอนปลาย': ''
             },
             'เซปักตะกร้อ': {
-                'ระดับประถมศึกษา - ประเภททีมชาย 3 คน': 'https://drive.google.com/file/d/1xO-Lb2Zu97biNGNFK1Zh61OFBn5E89Ly/view?usp=sharing',
+                'ระดับประถมศึกษา - ประเภททีมชาย 3 คน': '',
                 'ระดับประถมศึกษา - ประเภททีมหญิง 3 คน': ''
             },
             'คริกเก็ต': {
@@ -1636,7 +1636,7 @@
             },
             'ทักษะลูกสองมือล่างวอลเลย์บอล': {
                 'ระดับประถมศึกษา - ประเภทเดี่ยว ชาย': 'https://drive.google.com/file/d/1rAUh5Xaqe8GfGGGJrcCsA_9wKH0G36e9/view?usp=sharing',
-                'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': 'https://drive.google.com/file/d/1rAUh5Xaqe8GfGGGJrcCsA_9wKH0G36e9/view?usp=sharing'
+                'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': ''
             }
         };
 
@@ -2369,6 +2369,7 @@ const competitionCategories = {
 
                         <!-- ส่วนแสดงตารางอาหารพื้นบ้าน -->
                         <div id="food-section" class="food-section" style="display: none;">
+                            ${createFoodSummaryTable('อาหารพื้นบ้าน', foodCompetitions['อาหารพื้นบ้าน'])}
                 `;
 
                 // สร้างตารางอาหารพื้นบ้าน
@@ -2392,6 +2393,7 @@ const competitionCategories = {
 
                         <!-- ส่วนแสดงตารางส้มตำลีลา -->
                         <div id="somtam-section" class="food-section" style="display: none;">
+                            ${createFoodSummaryTable('ส้มตำลีลา', foodCompetitions['ส้มตำลีลา'])}
                 `;
 
                 // สร้างตารางส้มตำลีลา
@@ -2422,6 +2424,11 @@ const competitionCategories = {
 
         // ฟังก์ชันสร้างตาราง
         function createCompetitionTable(index, type, category, winners, certLink, hasCertLink) {
+            // ตรวจสอบว่าเป็นอาหารพื้นบ้านหรือส้มตำลีลาหรือไม่ - ถ้าใช่ ไม่แสดงตาราง (จะแสดงในส่วนเมนูอาหาร)
+            if (type === 'อาหารพื้นบ้าน' || type === 'ส้มตำลีลา') {
+                return '';
+            }
+
             let html = `
                 <div class="competition-table-section" style="margin-bottom: 3rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -2463,6 +2470,83 @@ const competitionCategories = {
                         <td><span style="font-size: 1.2rem;">${rankEmoji}</span> ${rankText}</td>
                         <td style="font-weight: 600;">${winner.name || ''}</td>
                         <td>${winner.school || ''}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // ฟังก์ชันสร้างตารางสรุปอาหาร
+        function createFoodSummaryTable(foodType, competitions) {
+            if (!competitions || Object.keys(competitions).length === 0) {
+                return '';
+            }
+
+            const typeIcon = foodType === 'อาหารพื้นบ้าน' ? '🍚' : '🌶️';
+            const typeColor = foodType === 'อาหารพื้นบ้าน' ? '#ff6b35' : '#e74c3c';
+            
+            let html = `
+                <div class="food-summary-table" style="margin-bottom: 3rem; background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+                    <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 2rem;">${typeIcon}</span>
+                        สรุปผลการแข่งขัน${foodType}
+                    </h3>
+                    
+                    <table class="results-table" style="margin-top: 0;">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px; text-align: center;">ชั้น</th>
+                                <th>รายวิจ</th>
+                                <th style="width: 100px; text-align: center;">ห้อง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            // เรียงลำดับตามระดับชั้น
+            const sortedCategories = Object.keys(competitions).sort((a, b) => {
+                const getLevel = (cat) => {
+                    const match = cat.match(/ม\.(\d+)/);
+                    return match ? parseInt(match[1]) : 0;
+                };
+                return getLevel(a) - getLevel(b);
+            });
+
+            sortedCategories.forEach(category => {
+                const winners = competitions[category];
+                const level = category.replace(/\/.*/, ''); // ม.1, ม.2 เป็นต้น
+                const classroom = category.includes('/') ? category.split('/')[1] : '-';
+                
+                // นับจำนวนรางวัลแต่ละประเภท
+                const rankCounts = {};
+                winners.forEach(winner => {
+                    const rank = winner.rank || '';
+                    if (rank.includes('ชนะเลิศ') && !rank.includes('รอง')) {
+                        rankCounts['champion'] = (rankCounts['champion'] || 0) + 1;
+                    } else if (rank.includes('รองชนะเลิศ')) {
+                        rankCounts['runner'] = (rankCounts['runner'] || 0) + 1;
+                    } else if (rank.includes('เข้าร่วม')) {
+                        rankCounts['participant'] = (rankCounts['participant'] || 0) + 1;
+                    }
+                });
+
+                let awards = [];
+                if (rankCounts['champion']) awards.push(`🏆 ชนะเลิศ ${rankCounts['champion']}`);
+                if (rankCounts['runner']) awards.push(`🥈 รองชนะเลิศ ${rankCounts['runner']}`);
+                if (rankCounts['participant']) awards.push(`🎖️ เข้าร่วม ${rankCounts['participant']}`);
+
+                html += `
+                    <tr>
+                        <td style="text-align: center; font-weight: 600; font-size: 1.1rem;">${level}</td>
+                        <td>${awards.join(' • ')}</td>
+                        <td style="text-align: center;">${classroom}</td>
                     </tr>
                 `;
             });
