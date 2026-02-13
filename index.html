@@ -1034,6 +1034,59 @@
             font-size: 1.2rem;
         }
 
+        /* Food Menu Buttons */
+        .food-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem 3rem;
+            background: white;
+            border: 3px solid rgba(0, 210, 255, 0.3);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+        }
+
+        .food-menu-btn i {
+            font-size: 3rem;
+            color: #00d2ff;
+        }
+
+        .food-menu-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #00d2ff;
+        }
+
+        .food-menu-btn.active {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
+            color: white;
+            border-color: #00d2ff;
+        }
+
+        .food-menu-btn.active i {
+            color: white;
+        }
+
+        .food-section {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Mini Certificate Button */
         .btn-mini-cert {
             padding: 0.5rem;
@@ -2210,21 +2263,34 @@ const competitionCategories = {
                 return;
             }
 
-            // จัดกลุ่มผู้ชนะตามประเภทการแข่งขันและระดับ
-            const groupedWinners = {};
+            // แยกรายการแข่งขันออกเป็น 2 กลุ่ม
+            const normalCompetitions = {};
+            const foodCompetitions = {
+                'อาหารพื้นบ้าน': {},
+                'ส้มตำลีลา': {}
+            };
+
             winners.forEach(winner => {
                 const type = winner.type || 'อื่นๆ';
                 const category = winner.category || 'ไม่ระบุ';
                 const key = `${type}|${category}`;
                 
-                if (!groupedWinners[key]) {
-                    groupedWinners[key] = {
-                        type: type,
-                        category: category,
-                        winners: []
-                    };
+                // ตรวจสอบว่าเป็นอาหารพื้นบ้านหรือส้มตำลีลาหรือไม่
+                if (type === 'อาหารพื้นบ้าน' || type === 'ส้มตำลีลา') {
+                    if (!foodCompetitions[type][category]) {
+                        foodCompetitions[type][category] = [];
+                    }
+                    foodCompetitions[type][category].push(winner);
+                } else {
+                    if (!normalCompetitions[key]) {
+                        normalCompetitions[key] = {
+                            type: type,
+                            category: category,
+                            winners: []
+                        };
+                    }
+                    normalCompetitions[key].winners.push(winner);
                 }
-                groupedWinners[key].winners.push(winner);
             });
 
             // เรียงลำดับรางวัล
@@ -2238,80 +2304,214 @@ const competitionCategories = {
             let html = '<div class="results-container">';
             let tableIndex = 0;
 
-            // สร้างตารางสำหรับแต่ละรายการแข่งขัน
-            Object.keys(groupedWinners).forEach((key) => {
-                const group = groupedWinners[key];
+            // แสดงรายการแข่งขันปกติ
+            Object.keys(normalCompetitions).forEach((key) => {
+                const group = normalCompetitions[key];
                 const type = group.type;
                 const category = group.category;
                 const typeWinners = group.winners;
                 
-                // เรียงลำดับตามรางวัล
                 typeWinners.sort((a, b) => {
                     const orderA = rankOrder[a.rank] || 99;
                     const orderB = rankOrder[b.rank] || 99;
                     return orderA - orderB;
                 });
 
-                // ตรวจสอบว่ามีลิงก์เกียรติบัตรหรือไม่
                 const certLink = getCertificateLink(type, category);
                 const hasCertLink = certLink && certLink !== '';
                 
-                html += `
-                    <div class="competition-table-section" style="margin-bottom: 3rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <div>
-                                <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.5rem;">
-                                    <i class="fas fa-trophy" style="color: #f39c12;"></i>
-                                    ${tableIndex + 1}. ${type}
-                                </h3>
-                                <p style="color: var(--text-light); font-size: 1rem; margin-left: 2.5rem;">
-                                    <i class="fas fa-layer-group"></i> ${category}
-                                </p>
-                            </div>
-                            ${hasCertLink ? `
-                            <a href="${certLink}" target="_blank" class="btn-download-cert">
-                                <i class="fas fa-download"></i> Download
-                            </a>
-                            ` : ''}
-                        </div>
-
-                        <table class="results-table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 60px; text-align: center;">ที่</th>
-                                    <th style="width: 120px;">รางวิจ</th>
-                                    <th>ชื่อ-นามสกุล</th>
-                                    <th>โรงเรียน</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
-
-                typeWinners.forEach((winner, index) => {
-                    const rankText = winner.rank ? winner.rank.substring(winner.rank.indexOf(' ') + 1) : 'รางวัล';
-                    const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
-                    
-                    html += `
-                        <tr>
-                            <td style="text-align: center; font-weight: 600;">${index + 1}</td>
-                            <td><span style="font-size: 1.2rem;">${rankEmoji}</span> ${rankText}</td>
-                            <td style="font-weight: 600;">${winner.name || ''}</td>
-                            <td>${winner.school || ''}</td>
-                        </tr>
-                    `;
-                });
-
-                html += `
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-
+                html += createCompetitionTable(tableIndex + 1, type, category, typeWinners, certLink, hasCertLink);
                 tableIndex++;
             });
 
+            // แสดงส่วนอาหารพื้นบ้านและส้มตำลีลา
+            const hasFoodData = Object.keys(foodCompetitions['อาหารพื้นบ้าน']).length > 0 || 
+                               Object.keys(foodCompetitions['ส้มตำลีลา']).length > 0;
+
+            if (hasFoodData) {
+                html += `
+                    <div style="margin-top: 4rem; padding-top: 3rem; border-top: 3px solid rgba(0, 210, 255, 0.3);">
+                        <h2 style="text-align: center; color: var(--text-dark); margin-bottom: 2rem; font-size: 1.8rem;">
+                            <i class="fas fa-utensils"></i> รายการแข่งขันอาหาร
+                        </h2>
+                        
+                        <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem;">
+                `;
+
+                // ปุ่มอาหารพื้นบ้าน
+                if (Object.keys(foodCompetitions['อาหารพื้นบ้าน']).length > 0) {
+                    html += `
+                        <button class="food-menu-btn" onclick="toggleFoodSection('food')" id="btn-food">
+                            <i class="fas fa-bowl-rice"></i>
+                            <div>
+                                <div style="font-size: 1.3rem; font-weight: 600;">อาหารพื้นบ้าน</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">${Object.keys(foodCompetitions['อาหารพื้นบ้าน']).length} ระดับชั้น</div>
+                            </div>
+                        </button>
+                    `;
+                }
+
+                // ปุ่มส้มตำลีลา
+                if (Object.keys(foodCompetitions['ส้มตำลีลา']).length > 0) {
+                    html += `
+                        <button class="food-menu-btn" onclick="toggleFoodSection('somtam')" id="btn-somtam">
+                            <i class="fas fa-pepper-hot"></i>
+                            <div>
+                                <div style="font-size: 1.3rem; font-weight: 600;">ส้มตำลีลา</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">${Object.keys(foodCompetitions['ส้มตำลีลา']).length} ระดับชั้น</div>
+                            </div>
+                        </button>
+                    `;
+                }
+
+                html += `
+                        </div>
+
+                        <!-- ส่วนแสดงตารางอาหารพื้นบ้าน -->
+                        <div id="food-section" class="food-section" style="display: none;">
+                `;
+
+                // สร้างตารางอาหารพื้นบ้าน
+                Object.keys(foodCompetitions['อาหารพื้นบ้าน']).forEach((category) => {
+                    const typeWinners = foodCompetitions['อาหารพื้นบ้าน'][category];
+                    typeWinners.sort((a, b) => {
+                        const orderA = rankOrder[a.rank] || 99;
+                        const orderB = rankOrder[b.rank] || 99;
+                        return orderA - orderB;
+                    });
+
+                    const certLink = getCertificateLink('อาหารพื้นบ้าน', category);
+                    const hasCertLink = certLink && certLink !== '';
+                    
+                    tableIndex++;
+                    html += createCompetitionTable(tableIndex, 'อาหารพื้นบ้าน', category, typeWinners, certLink, hasCertLink);
+                });
+
+                html += `
+                        </div>
+
+                        <!-- ส่วนแสดงตารางส้มตำลีลา -->
+                        <div id="somtam-section" class="food-section" style="display: none;">
+                `;
+
+                // สร้างตารางส้มตำลีลา
+                Object.keys(foodCompetitions['ส้มตำลีลา']).forEach((category) => {
+                    const typeWinners = foodCompetitions['ส้มตำลีลา'][category];
+                    typeWinners.sort((a, b) => {
+                        const orderA = rankOrder[a.rank] || 99;
+                        const orderB = rankOrder[b.rank] || 99;
+                        return orderA - orderB;
+                    });
+
+                    const certLink = getCertificateLink('ส้มตำลีลา', category);
+                    const hasCertLink = certLink && certLink !== '';
+                    
+                    tableIndex++;
+                    html += createCompetitionTable(tableIndex, 'ส้มตำลีลา', category, typeWinners, certLink, hasCertLink);
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
             html += '</div>';
             container.innerHTML = html;
+        }
+
+        // ฟังก์ชันสร้างตาราง
+        function createCompetitionTable(index, type, category, winners, certLink, hasCertLink) {
+            let html = `
+                <div class="competition-table-section" style="margin-bottom: 3rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.5rem;">
+                                <i class="fas fa-trophy" style="color: #f39c12;"></i>
+                                ${index}. ${type}
+                            </h3>
+                            <p style="color: var(--text-light); font-size: 1rem; margin-left: 2.5rem;">
+                                <i class="fas fa-layer-group"></i> ${category}
+                            </p>
+                        </div>
+                        ${hasCertLink ? `
+                        <a href="${certLink}" target="_blank" class="btn-download-cert">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        ` : ''}
+                    </div>
+
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px; text-align: center;">ที่</th>
+                                <th style="width: 120px;">รางวิจ</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>โรงเรียน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            winners.forEach((winner, idx) => {
+                const rankText = winner.rank ? winner.rank.substring(winner.rank.indexOf(' ') + 1) : 'รางวัล';
+                const rankEmoji = winner.rank ? winner.rank.split(' ')[0] : '🏆';
+                
+                html += `
+                    <tr>
+                        <td style="text-align: center; font-weight: 600;">${idx + 1}</td>
+                        <td><span style="font-size: 1.2rem;">${rankEmoji}</span> ${rankText}</td>
+                        <td style="font-weight: 600;">${winner.name || ''}</td>
+                        <td>${winner.school || ''}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // Toggle Food Section
+        function toggleFoodSection(section) {
+            const foodSection = document.getElementById('food-section');
+            const somtamSection = document.getElementById('somtam-section');
+            const btnFood = document.getElementById('btn-food');
+            const btnSomtam = document.getElementById('btn-somtam');
+
+            if (section === 'food') {
+                if (foodSection.style.display === 'none') {
+                    foodSection.style.display = 'block';
+                    somtamSection.style.display = 'none';
+                    if (btnFood) btnFood.classList.add('active');
+                    if (btnSomtam) btnSomtam.classList.remove('active');
+                } else {
+                    foodSection.style.display = 'none';
+                    if (btnFood) btnFood.classList.remove('active');
+                }
+            } else if (section === 'somtam') {
+                if (somtamSection.style.display === 'none') {
+                    somtamSection.style.display = 'block';
+                    foodSection.style.display = 'none';
+                    if (btnSomtam) btnSomtam.classList.add('active');
+                    if (btnFood) btnFood.classList.remove('active');
+                } else {
+                    somtamSection.style.display = 'none';
+                    if (btnSomtam) btnSomtam.classList.remove('active');
+                }
+            }
+
+            // Scroll to section
+            setTimeout(() => {
+                const activeSection = section === 'food' ? foodSection : somtamSection;
+                if (activeSection.style.display === 'block') {
+                    activeSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 100);
         }
 
         // Escape quotes for onclick attributes
