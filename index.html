@@ -2487,7 +2487,7 @@ const competitionCategories = {
             return html;
         }
 
-        // ฟังก์ชันสร้างตารางสรุปอาหาร
+        // ฟังก์ชันสร้างตารางสรุปอาหาร (ตรงตามที่ออกแบบ)
         function createFoodSummaryTable(foodType, competitions) {
             if (!competitions || Object.keys(competitions).length === 0) {
                 return '';
@@ -2495,12 +2495,45 @@ const competitionCategories = {
 
             const typeIcon = foodType === 'อาหารพื้นบ้าน' ? '🍚' : '🌶️';
             
+            // โครงสร้างข้อมูลแบบคงที่ตามตาราง
+            const tableStructure = {
+                'ม.1': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.1/2' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.1/7' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.1/9' }
+                ],
+                'ม.2': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.2/5' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.2/7' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.2/6' }
+                ],
+                'ม.3': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.3/6' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.3/2' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.3/3' }
+                ],
+                'ม.4': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.4/1' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.4/2' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.4/7 และ 4/3' }
+                ],
+                'ม.5': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.5/1' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.5/4' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.5/2 และ 5/3' }
+                ],
+                'ม.6': [
+                    { award: 'รางวัลชนะเลิศ', room: 'ม.6/4' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 1', room: 'ม.6/3' },
+                    { award: 'รางวัลรองชนะเลิศ อันดับ 2', room: 'ม.6/7' }
+                ]
+            };
+            
             let html = `
                 <div class="food-summary-section" style="margin-bottom: 3rem;">
                     <!-- ตารางสรุป -->
                     <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;">
-                        <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 2rem;">${typeIcon}</span>
+                        <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
                             ผลการแข่งขัน${foodType}ทีมนำบ้าน
                         </h3>
                         
@@ -2508,85 +2541,36 @@ const competitionCategories = {
                             <thead>
                                 <tr>
                                     <th style="width: 100px; text-align: center;">ชั้น</th>
-                                    <th>รายวิจ</th>
-                                    <th style="width: 120px; text-align: center;">ห้อง</th>
+                                    <th style="text-align: center;">รายวิจ</th>
+                                    <th style="width: 150px; text-align: center;">ห้อง</th>
                                 </tr>
                             </thead>
                             <tbody>
             `;
 
-            // จัดกลุ่มตามระดับชั้นหลัก (ม.1, ม.2, etc.)
-            const groupedByLevel = {};
-            Object.keys(competitions).forEach(category => {
-                const level = category.replace(/\/.*/, ''); // ม.1, ม.2
-                if (!groupedByLevel[level]) {
-                    groupedByLevel[level] = [];
+            // สร้างแถวตามโครงสร้างที่กำหนด
+            Object.keys(tableStructure).forEach(level => {
+                const awards = tableStructure[level];
+                const rowspan = awards.length;
+                
+                // แถวแรกของแต่ละชั้น
+                html += `
+                    <tr>
+                        <td style="text-align: center; font-weight: 600; font-size: 1rem; vertical-align: middle; border-right: 2px solid #f0f0f0;" rowspan="${rowspan}">${level}</td>
+                        <td style="padding: 0.8rem;">${awards[0].award}</td>
+                        <td style="text-align: center; padding: 0.8rem;">${awards[0].room}</td>
+                    </tr>
+                `;
+                
+                // แถวถัดไป (ถ้ามี)
+                for (let i = 1; i < awards.length; i++) {
+                    html += `
+                        <tr>
+                            <td style="padding: 0.8rem;">${awards[i].award}</td>
+                            <td style="text-align: center; padding: 0.8rem;">${awards[i].room}</td>
+                        </tr>
+                    `;
                 }
-                groupedByLevel[level].push({
-                    category: category,
-                    winners: competitions[category]
-                });
-            });
-
-            // เรียงลำดับตามระดับชั้น
-            const sortedLevels = Object.keys(groupedByLevel).sort((a, b) => {
-                const getNum = (level) => {
-                    const match = level.match(/ม\.(\d+)/);
-                    return match ? parseInt(match[1]) : 0;
-                };
-                return getNum(a) - getNum(b);
-            });
-
-            sortedLevels.forEach(level => {
-                const groups = groupedByLevel[level];
-                
-                // รวมผู้ชนะทั้งหมดในระดับเดียวกัน
-                let allWinners = [];
-                let winnersByRoom = {};
-                
-                groups.forEach(group => {
-                    const room = group.category.includes('/') ? group.category.split('/')[1] : '';
-                    group.winners.forEach(winner => {
-                        allWinners.push({...winner, room: room});
-                        if (!winnersByRoom[winner.rank]) {
-                            winnersByRoom[winner.rank] = [];
-                        }
-                        winnersByRoom[winner.rank].push(room);
-                    });
-                });
-
-                // จัดเรียงตามรางวัล
-                const rankOrder = ['🏆 รางวัลชนะเลิศ', '🥈 รางวัลรองชนะเลิศ อันดับที่ 1', '🥉 รางวัลรองชนะเลิศ อันดับที่ 2'];
-                let rowCount = 0;
-                
-                rankOrder.forEach(rank => {
-                    if (winnersByRoom[rank]) {
-                        const rooms = winnersByRoom[rank];
-                        const rankText = rank.substring(rank.indexOf(' ') + 1);
-                        
-                        rooms.forEach((room, idx) => {
-                            if (rowCount === 0) {
-                                // แถวแรกของระดับนี้ - แสดง rowspan
-                                const totalRows = Object.values(winnersByRoom).reduce((sum, arr) => sum + arr.length, 0);
-                                html += `
-                                    <tr>
-                                        <td style="text-align: center; font-weight: 600; font-size: 1.1rem; vertical-align: middle;" rowspan="${totalRows}">${level}</td>
-                                        <td>${rankText}</td>
-                                        <td style="text-align: center;">${level}/${room}</td>
-                                    </tr>
-                                `;
-                            } else {
-                                html += `
-                                    <tr>
-                                        <td>${rankText}</td>
-                                        <td style="text-align: center;">${level}/${room}</td>
-                                    </tr>
-                                `;
-                            }
-                            rowCount++;
-                        });
-                    }
-                });
             });
 
             html += `
