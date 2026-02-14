@@ -1124,6 +1124,34 @@
                 grid-template-columns: 1fr !important;
             }
         }
+        /* Coach Certificate Button */
+.btn-coach-cert {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-coach-cert:hover {
+    background: #229954;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+.btn-coach-cert i {
+    font-size: 1.2rem;
+}
     </style>
 </head>
 <body>
@@ -1648,6 +1676,46 @@
             return null;
         }
 
+        // เกียรติบัตรผู้ฝึกสอน - ลิงก์สำหรับครูผู้ควบคุม/ผู้ฝึกสอน
+const coachCertificateLinks = {
+    'วาดภาพระบายสี': {
+        'ระดับชั้น ป.1-ป.2 ประเภทสีไม้': 'https://drive.google.com/file/d/1YMxbreOZIgNsiUdLTvhfSXSL2amV3cHK/view?usp=sharing',
+        'ระดับชั้น ป.3-ป.4 ประเภท สีชอล์ค': 'https://drive.google.com/file/d/1HWvZKzhPGwBCgGUGd15oZhPzkJERJnN4/view?usp=sharing',
+        'ระดับชั้น ป.5-ป.6 ประเภทสีชอล์ค': 'https://drive.google.com/file/d/1_CtahiU8NraGSlpgcuwy-SWOK5TvL2oK/view?usp=sharing',
+        'ระดับชั้น ม.ต้น หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': '',
+        'ระดับชั้น ม.ปลาย หุ่นนิ่ง หัวข้อ เครื่องมือเครื่องใช้ในท้องถิ่น': ''
+    },
+    'ขับร้องเพลงลูกทุ่งคาราโอเกะ': {
+        'ระดับประถมศึกษา': '',
+        'ระดับมัธยมศึกษาตอนต้น': '',
+        'ระดับมัธยมศึกษาตอนปลาย': ''
+    },
+    'เซปักตะกร้อ': {
+        'ระดับประถมศึกษา - ประเภททีมชาย 3 คน': 'https://drive.google.com/file/d/1ldcSGtWrLFi7yS5pajZ4ccvHCQrN_hU-/view?usp=sharing',
+        'ระดับประถมศึกษา - ประเภททีมหญิง 3 คน': ''
+    },
+    'คริกเก็ต': {
+        'ระดับประถมศึกษา - ประเภทผสม (อายุไม่เกิน 12 ปี)': ''
+    },
+    'ทักษะลูกสองมือล่างวอลเลย์บอล': {
+        'ระดับประถมศึกษา - ประเภทเดี่ยว ชาย': '',
+        'ระดับประถมศึกษา - ประเภทเดี่ยว หญิง': ''
+    },
+    'อาหารพื้นบ้าน': {
+        'ม.1': '', 'ม.2': '', 'ม.3': '', 'ม.4': '', 'ม.5': '', 'ม.6': ''
+    },
+    'ส้มตำลีลา': {
+        'ม.1': '', 'ม.2': '', 'ม.3': '', 'ม.4': '', 'ม.5': '', 'ม.6': ''
+    }
+};
+
+// ฟังก์ชันดึงลิงก์เกียรติบัตรผู้ฝึกสอน
+function getCoachCertificateLink(competitionType, category) {
+    if (coachCertificateLinks[competitionType] && coachCertificateLinks[competitionType][category]) {
+        return coachCertificateLinks[competitionType][category];
+    }
+    return null;
+}
         // Competition categories mapping
 const competitionCategories = {
     'วาดภาพระบายสี': [
@@ -2445,11 +2513,21 @@ const competitionCategories = {
                                 <i class="fas fa-layer-group"></i> ${category}
                             </p>
                         </div>
-                        ${hasCertLink ? `
-                        <a href="${certLink}" target="_blank" class="btn-download-cert">
-                            <i class="fas fa-download"></i> Download
-                        </a>
-                        ` : ''}
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+    ${hasCertLink ? `
+    <a href="${certLink}" target="_blank" class="btn-download-cert">
+        <i class="fas fa-download"></i> Download
+    </a>
+    ` : ''}
+    ${(() => {
+        const coachLink = getCoachCertificateLink(type, category);
+        return coachLink ? `
+        <a href="${coachLink}" target="_blank" class="btn-coach-cert">
+            <i class="fas fa-chalkboard-teacher"></i> ผู้ฝึกสอน
+        </a>
+        ` : '';
+    })()}
+</div>
                     </div>
 
                     <table class="results-table">
@@ -2598,11 +2676,21 @@ const competitionCategories = {
                                 <i class="fas fa-layer-group"></i> ${category}
                             </div>
                         </div>
-                        ${hasCertLink ? `
-                        <a href="${certLink}" target="_blank" style="padding: 0.6rem 1.5rem; background: #ff6b35; color: white; border-radius: 10px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);">
-                            <i class="fas fa-download"></i> Download
-                        </a>
-                        ` : ''}
+                        <div style="display: flex; gap: 0.8rem;">
+    ${hasCertLink ? `
+    <a href="${certLink}" target="_blank" style="padding: 0.6rem 1.5rem; background: #ff6b35; color: white; border-radius: 10px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);">
+        <i class="fas fa-download"></i> Download
+    </a>
+    ` : ''}
+    ${(() => {
+        const coachLink = getCoachCertificateLink(type, category);
+        return coachLink ? `
+        <a href="${coachLink}" target="_blank" style="padding: 0.6rem 1.5rem; background: #27ae60; color: white; border-radius: 10px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);">
+            <i class="fas fa-chalkboard-teacher"></i> ผู้ฝึกสอน
+        </a>
+        ` : '';
+    })()}
+</div>
                     </div>
                     
                     <div style="display: grid; gap: 0.8rem;">
