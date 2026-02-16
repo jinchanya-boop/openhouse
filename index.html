@@ -2591,19 +2591,6 @@ function createSomtamResultsTable(level) {
                     `;
                 }
 
-                // ปุ่มส้มตำลีลา
-                if (Object.keys(foodCompetitions['ส้มตำลีลา']).length > 0) {
-                    html += `
-                        <button class="food-menu-btn" onclick="toggleFoodSection('somtam')" id="btn-somtam">
-                            <i class="fas fa-pepper-hot"></i>
-                            <div>
-                                <div style="font-size: 1.3rem; font-weight: 600;">ส้มตำลีลา</div>
-                                <div style="font-size: 0.9rem; opacity: 0.9;">${Object.keys(foodCompetitions['ส้มตำลีลา']).length} ระดับชั้น</div>
-                            </div>
-                        </button>
-                    `;
-                }
-
                 html += `
                         </div>
 
@@ -2633,36 +2620,7 @@ function createSomtamResultsTable(level) {
                 </div>
                         </div>
 
-                        <!-- ส่วนแสดงตารางส้มตำลีลา -->
-                        <div id="somtam-section" class="food-section" style="display: none;">
-                            ${createFoodSummaryTable('ส้มตำลีลา', foodCompetitions['ส้มตำลีลา'])}
-                `;
-
-                // สร้างตารางส้มตำลีลา
-                Object.keys(foodCompetitions['ส้มตำลีลา']).forEach((category) => {
-                    const typeWinners = foodCompetitions['ส้มตำลีลา'][category];
-                    typeWinners.sort((a, b) => {
-                        const orderA = rankOrder[a.rank] || 99;
-                        const orderB = rankOrder[b.rank] || 99;
-                        return orderA - orderB;
-                    });
-
-                    const certLink = getCertificateLink('ส้มตำลีลา', category);
-                    const hasCertLink = certLink && certLink !== '';
-                    
-                    tableIndex++;
-                    html += createFoodDetailCard(tableIndex, 'ส้มตำลีลา', category, typeWinners, certLink, hasCertLink);
-                });
-
-                html += `
-                    </div>
-                </div>
-                        </div>
-                    </div>
-                `;
-
-            }
-
+                        
             // ตรวจสอบว่ามีข้อมูลส้มตำลีลาหรือไม่
             const hasSomtam = winners.some(w => w.type === 'ส้มตำลีลา');
 
