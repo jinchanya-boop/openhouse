@@ -2591,19 +2591,7 @@ function createSomtamResultsTable(level) {
                     `;
                 }
 
-                // ปุ่มส้มตำลีลา
-                if (Object.keys(foodCompetitions['ส้มตำลีลา']).length > 0) {
-                    html += `
-                        <button class="food-menu-btn" onclick="toggleFoodSection('somtam')" id="btn-somtam">
-                            <i class="fas fa-pepper-hot"></i>
-                            <div>
-                                <div style="font-size: 1.3rem; font-weight: 600;">ส้มตำลีลา</div>
-                                <div style="font-size: 0.9rem; opacity: 0.9;">${Object.keys(foodCompetitions['ส้มตำลีลา']).length} ระดับชั้น</div>
-                            </div>
-                        </button>
-                    `;
-                }
-
+                
                 html += `
                         </div>
 
