@@ -1267,10 +1267,11 @@
                     <div class="category-title">
                         <i class="fas fa-pepper-hot"></i>
                         การแข่งขันส้มตำลีลา
-                </div>
-                <ul class="category-levels">
-                    <li><i class="fas fa-users"></i> ระดับมัธยมศึกษา (ม.1-ม.6) - ประเภททีม ทีมละ 3 คน</li>
-                </ul>
+                    </div>
+                    <ul class="category-levels">
+                        <li><i class="fas fa-users"></i> ระดับมัธยมศึกษาตอนต้น (ม.ต้น)</li>
+                        <li><i class="fas fa-users"></i> ระดับมัธยมศึกษาตอนปลาย (ม.ปลาย)</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1746,12 +1747,8 @@ const competitionCategories = {
         'ม.6', 'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
     ],
     'ส้มตำลีลา': [
-        'ม.1', 'ม.1/1', 'ม.1/2', 'ม.1/3', 'ม.1/4', 'ม.1/5', 'ม.1/6', 'ม.1/7', 'ม.1/8', 'ม.1/9',
-        'ม.2', 'ม.2/1', 'ม.2/2', 'ม.2/3', 'ม.2/4', 'ม.2/5', 'ม.2/6', 'ม.2/7', 'ม.2/8', 'ม.2/9',
-        'ม.3', 'ม.3/1', 'ม.3/2', 'ม.3/3', 'ม.3/4', 'ม.3/5', 'ม.3/6', 'ม.3/7', 'ม.3/8',
-        'ม.4', 'ม.4/1', 'ม.4/2', 'ม.4/3', 'ม.4/4', 'ม.4/5', 'ม.4/6', 'ม.4/7',
-        'ม.5', 'ม.5/1', 'ม.5/2', 'ม.5/3', 'ม.5/4', 'ม.5/5', 'ม.5/6', 'ม.5/7',
-        'ม.6', 'ม.6/1', 'ม.6/2', 'ม.6/3', 'ม.6/4', 'ม.6/5', 'ม.6/6', 'ม.6/7'
+        'ม.ต้น',
+        'ม.ปลาย'
     ]
 };
 
@@ -2288,6 +2285,130 @@ const competitionCategories = {
             });
         }
 
+
+        // ฟังก์ชันสร้างตารางผลการแข่งขันส้มตำลีลา
+        function createSomtamResultsTable(level) {
+            // ข้อมูลผลการแข่งขันส้มตำลีลา (ตามตารางที่ให้มา)
+            const somtamResults = {
+                'ม.ต้น': [
+                    { rank: '🏆 รางวัลชนะเลิศ', name: 'เสมอนะเปิดตรา', school: 'โรงเรียนสา' },
+                    { rank: '🥈 รางวัลรองชนะเลิศ อันดับที่ 1', name: 'สามแข้น', school: 'โรงเรียนสา' },
+                    { rank: '🥉 รางวัลรองชนะเลิศ อันดับที่ 2', name: 'น้ำตกลั้งฉุย', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 3', name: 'ตำแสบแซบแหกขา', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 4', name: '3 หนุ่มวิว', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 5', name: 'ปรติตตปี้', school: 'โรงเรียนสา' }
+                ],
+                'ม.ปลาย': [
+                    { rank: '🏆 รางวัลชนะเลิศ', name: 'น้ำท้วมท่า', school: 'โรงเรียนสา' },
+                    { rank: '🥈 รางวัลรองชนะเลิศ อันดับที่ 1', name: 'แอมเนด คันคิดผุทุง', school: 'โรงเรียนสา' },
+                    { rank: '🥉 รางวัลรองชนะเลิศ อันดับที่ 2', name: 'สีฟัง 3 สยองเมิ่น 1', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 3', name: 'มาตามอย่าถามสี', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 4', name: 'แซบจีงจังจอบสา', school: 'โรงเรียนสา' },
+                    { rank: '🏅 รางวัลรองชนะเลิศ อันดับที่ 5', name: 'ตำปุ๋ย', school: 'โรงเรียนสา' }
+                ]
+            };
+
+            const results = somtamResults[level];
+            if (!results) return '';
+            
+            const certLink = getCertificateLink('ส้มตำลีลา', level);
+            const hasCertLink = certLink && certLink !== '';
+
+            let html = `
+                <div class="competition-table-section" style="margin-bottom: 2rem; animation: fadeIn 0.5s ease;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.5rem;">
+                                <i class="fas fa-pepper-hot" style="color: #f39c12;"></i>
+                                การแข่งขันส้มตำลีลา - ระดับ${level}
+                            </h3>
+                            <p style="color: var(--text-light); font-size: 1rem; margin-left: 2.5rem;">
+                                ${level === 'ม.ต้น' ? 'มัธยมศึกษาตอนต้น (ม.1 - ม.3)' : 'มัธยมศึกษาตอนปลาย (ม.4 - ม.6)'}
+                            </p>
+                        </div>
+                        ${hasCertLink ? `
+                        <a href="${certLink}" target="_blank" class="btn-download-cert">
+                            <i class="fas fa-download"></i> ดาวน์โหลดเกียรติบัตร
+                        </a>
+                        ` : ''}
+                    </div>
+
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px; text-align: center;">ที่</th>
+                                <th style="width: 180px;">รางวัล</th>
+                                <th>ชื่อทีม</th>
+                                <th>โรงเรียน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            results.forEach((winner, idx) => {
+                const rankEmoji = winner.rank.split(' ')[0];
+                const rankText = winner.rank.substring(winner.rank.indexOf(' ') + 1);
+                
+                html += `
+                    <tr>
+                        <td style="text-align: center; font-weight: 600;">${idx + 1}</td>
+                        <td><span style="font-size: 1.2rem;">${rankEmoji}</span> ${rankText}</td>
+                        <td style="font-weight: 600;">${winner.name}</td>
+                        <td>${winner.school}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // Toggle Somtam Level Display
+        function toggleSomtamLevel(level) {
+            const juniorSection = document.getElementById('somtam-junior-section');
+            const seniorSection = document.getElementById('somtam-senior-section');
+            const btnJunior = document.getElementById('btn-somtam-junior');
+            const btnSenior = document.getElementById('btn-somtam-senior');
+
+            if (level === 'ม.ต้น') {
+                if (juniorSection.style.display === 'none') {
+                    juniorSection.style.display = 'block';
+                    seniorSection.style.display = 'none';
+                    if (btnJunior) btnJunior.classList.add('active');
+                    if (btnSenior) btnSenior.classList.remove('active');
+                } else {
+                    juniorSection.style.display = 'none';
+                    if (btnJunior) btnJunior.classList.remove('active');
+                }
+            } else if (level === 'ม.ปลาย') {
+                if (seniorSection.style.display === 'none') {
+                    seniorSection.style.display = 'block';
+                    juniorSection.style.display = 'none';
+                    if (btnSenior) btnSenior.classList.add('active');
+                    if (btnJunior) btnJunior.classList.remove('active');
+                } else {
+                    seniorSection.style.display = 'none';
+                    if (btnSenior) btnSenior.classList.remove('active');
+                }
+            }
+
+            // Scroll to section
+            setTimeout(() => {
+                const activeSection = level === 'ม.ต้น' ? juniorSection : seniorSection;
+                if (activeSection && activeSection.style.display === 'block') {
+                    activeSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 100);
+        }
+
+        // Load results - แก้ไขเพื่อแยกตามรายการแข่งขัน
+        async function loadResults() {
+        
         // Load results - แก้ไขเพื่อแยกตามรายการแข่งขัน
         async function loadResults() {
             try {
